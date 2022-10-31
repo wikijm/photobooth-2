@@ -50,6 +50,7 @@ function createArchive(fileName, archive) {
 
     archive.directory('admin');
     archive.directory('api');
+    archive.directory('gallery');
     archive.directory('lib');
     archive.directory('login');
     archive.directory('manual');
