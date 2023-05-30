@@ -68,6 +68,10 @@
 								<a href="#" class="<?php echo $btnClass; ?> takePic rotaryfocus"><i class="<?php echo $config['icons']['take_picture']; ?>"></i> <span data-i18n="takePhoto"></span></a>
 								<?php endif; ?>
 
+								<?php if ($config['picture']['enabled']): ?>
+								<a href="livechroma.php" class="<?php echo $btnClass; ?> rotaryfocus"><i class="<?php echo $config['icons']['take_picture']; ?>"></i> <span data-i18n="takeLiveChroma"></span></a>
+								<?php endif; ?>
+
 								<?php if ($config['custom']['enabled']): ?>
 								<a href="#" class="<?php echo $btnClass; ?> takeCustom rotaryfocus"><i class="<?php echo $config['icons']['take_custom']; ?>"></i> <span><?php echo $config['custom']['btn_text']; ?></span></a>
 								<?php endif; ?>

@@ -70,7 +70,7 @@ $config['filters']['defaults'] = 'plain';
 $config['filters']['disabled'] = array();
 $config['picture']['take_frame'] = false;
 $config['picture']['frame'] = '';
-$config['picture']['frame_path'] = 'resources/img/frames';
+$config['picture']['frame_path'] = 'private/frames';
 $config['picture']['extend_by_frame'] = true;
 $config['picture']['frame_left_percentage'] = 10;
 $config['picture']['frame_right_percentage'] = 10;
@@ -221,7 +221,7 @@ $config['live_keying']['enabled'] = false;
 // possible variant values: 'marvinj', 'seriouslyjs'
 $config['keying']['variant'] = 'seriouslyjs';
 $config['keying']['seriouslyjs_color'] = '#62af74';
-$config['keying']['background_path'] = 'resources/img/background';
+$config['keying']['background_path'] = 'private/backgrounds';
 $config['live_keying']['show_all'] = false;
 
 
@@ -392,8 +392,8 @@ $config['ui']['font_size'] = '16px';
 $config['colors']['countdown'] = '#ffffff';
 $config['colors']['background_countdown'] = '#2e2e2e';
 $config['colors']['cheese'] = '#ffffff';
-$config['background']['defaults'] = '';
-$config['background']['chroma'] = '';
+$config['background']['defaults'] = 'url(private/bg_ff-kray.jpg)';
+$config['background']['chroma'] = 'url(private/bg_ff-kray.jpg)';
 $config['ui']['decore_lines'] = true;
 $config['ui']['rounded_corners'] = false;
 $config['colors']['primary'] = '#2e2e2e';
