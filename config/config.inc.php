@@ -70,6 +70,7 @@ $config['filters']['defaults'] = 'plain';
 $config['filters']['disabled'] = array();
 $config['picture']['take_frame'] = false;
 $config['picture']['frame'] = '';
+$config['picture']['frame_path'] = 'resources/img/frames';
 $config['picture']['extend_by_frame'] = true;
 $config['picture']['frame_left_percentage'] = 10;
 $config['picture']['frame_right_percentage'] = 10;

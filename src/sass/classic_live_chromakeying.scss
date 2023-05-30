@@ -56,7 +56,8 @@
   color: #fff;
 }
 
-.backgrounds {
+.backgrounds,
+.frames {
   padding-top: 10px;
   text-align: center;
 }
@@ -93,13 +94,14 @@
     width: 950px;
   }
 
-  .backgrounds {
+  .backgrounds,
+  .frames {
     display: block;
     position: relative;
     top: 50px;
     left: 0px;
     width: 250px;
-    height: 400px;
+    height: 300px;
     overflow-y: auto;
     img {
       display: block;
@@ -108,9 +110,12 @@
     }
   }
 
-  .backgroundPreview {
-    max-width: 250px;
-    max-height: 150px;
+  .backgroundPreview,
+  .framePreview {
+    cursor: pointer;
+    max-height: 220px;
+    border: 2px solid $borderColor;
+    margin: 3px;
   }
 
   .chroma-control-bar {

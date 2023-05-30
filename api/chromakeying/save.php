@@ -109,7 +109,12 @@ try {
         }
 
         if ($config['picture']['take_frame']) {
-            $imageHandler->framePath = $config['picture']['frame'];
+            if (isset($_POST['frame']) && !empty($_POST['frame'])) {
+                $imageHandler->framePath = $_POST['frame'];
+            } else {
+                $imageHandler->framePath = $config['picture']['frame'];
+            }
+
             $imageHandler->frameExtend = $config['picture']['extend_by_frame'];
             if ($config['picture']['extend_by_frame']) {
                 $imageHandler->frameExtendLeft = $config['picture']['frame_left_percentage'];

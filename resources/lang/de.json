@@ -470,6 +470,7 @@
   "pictures:picture_frame": "Rahmen",
   "pictures:picture_frame_bottom_percentage": "Größe des unteren Rands des Rahmens (prozentual)",
   "pictures:picture_frame_left_percentage": "Größe des linken Rands des Rahmens (prozentual)",
+  "pictures:picture_frame_path": "Pfad zu den Rahmen",
   "pictures:picture_frame_right_percentage": "Größe des rechten Rands des Rahmens (prozentual)",
   "pictures:picture_frame_top_percentage": "Größe des oberen Rands des Rahmens (prozentual)",
   "pictures:picture_keep_original": "Original Bilder im tmp Ordner behalten",

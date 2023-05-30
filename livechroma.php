@@ -108,7 +108,19 @@ if (
         <!-- Result Page -->
         <div class="stages" id="result"></div>
 
-        <div class="backgrounds <?php echo $uiShape ?>">
+        <div class="frames <?php echo $uiShape ?> noborder">
+            <?php
+            $dir = $config['picture']['frame_path'] . DIRECTORY_SEPARATOR;
+            $cdir = scandir($dir);
+            foreach ($cdir as $key => $value) {
+                if (!in_array($value, array(".", "..")) && !is_dir($dir . $value)) {
+                    echo '<img src="' . $dir . $value . '" class="' . $uiShape . ' framePreview rotaryfocus" onclick="setFrameImage(this)">';
+                }
+            }
+            ?>
+        </div>
+
+        <div class="backgrounds <?php echo $uiShape ?> noborder">
             <?php
             $dir = $config['keying']['background_path'] . DIRECTORY_SEPARATOR;
             $cdir = scandir($dir);

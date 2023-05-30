@@ -4,6 +4,7 @@ let mainImage;
 let mainImageWidth;
 let mainImageHeight;
 let backgroundImage;
+let frame = '';
 let seriously;
 let target;
 let chroma;
@@ -138,6 +139,13 @@ function setBackgroundImage(url) {
     };
 }
 
+// eslint-disable-next-line no-unused-vars
+function setFrameImage(data) {
+    frame = data.src;
+    $('.framePreview').css('border', '');
+    $(data).css('border', '3px solid red');
+}
+
 function drawCanvas(save = false, filename = '') {
     if (typeof mainImage !== 'undefined' && mainImage !== null) {
         canvas.width = mainImage.width;
@@ -202,7 +210,8 @@ function saveImage(filename, cb) {
         url: 'api/chromakeying/save.php',
         data: {
             imgData: dataURL,
-            file: filename
+            file: filename,
+            frame: frame
         },
         success: (resp) => {
             if (typeof onLiveChromaKeyingView === 'undefined') {
@@ -407,6 +416,7 @@ $(document).ready(function () {
             if ($('.chroma-control-bar').is(':visible')) {
                 $('.chroma-control-bar').hide();
                 $('.backgrounds').hide();
+                $('.frames').hide();
 
                 setTimeout(() => {
                     $('.chromaNote').show();

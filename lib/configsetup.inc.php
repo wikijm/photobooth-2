@@ -518,6 +518,13 @@ $configsetup = [
             'name' => 'picture[frame]',
             'value' => htmlentities($config['picture']['frame'] ?? ''),
         ],
+        'picture_frame_path' => [
+            'view' => 'expert',
+            'type' => 'input',
+            'placeholder' => $defaultConfig['picture']['frame_path'],
+            'name' => 'picture[frame_path]',
+            'value' => htmlentities($config['picture']['frame_path'] ?? ''),
+        ],
         'picture_extend_by_frame' => [
             'view' => 'expert',
             'type' => 'checkbox',
