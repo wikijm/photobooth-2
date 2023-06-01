@@ -136,6 +136,7 @@ function setBackgroundImage(url) {
     backgroundImage.src = url;
     backgroundImage.onload = function () {
         drawCanvas();
+        $('.canvasWrapper').css('display', 'inline-block');
     };
 }
 
