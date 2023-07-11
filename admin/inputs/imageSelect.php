@@ -65,7 +65,7 @@ function getImageSelect($setting, $i18ntag) {
                         <div class="text-xs mb-3 -mt-2 break-all">' .
         $setting['value'] .
         '</div>
-                        <div class="w-full h-10 bg-brand-1 text-white flex items-center justify-center rounded-full" onclick="openAdminImageSelect(this)">Bild auswählen</div>
+                        <div class="w-full h-10 bg-brand-1 text-white flex items-center justify-center rounded-full" onclick="openAdminImageSelect(this)"><span data-i18n="choose_image">choose_image</span></div>
                     </div>
                 </div>
 
@@ -73,7 +73,7 @@ function getImageSelect($setting, $i18ntag) {
                     <div class="w-full h-full left-0 top-0 z-10 absolute bg-black bg-opacity-60 cursor-pointer" onclick="closeAdminImageSelect()"></div>
                     <div class="w-full max-h-3/4 max-w-2xl bg-white p-4 pt-2 rounded relative z-20 flex flex-col overflow-hidden">
                         <div class="w-full flex items-center">
-                            <h2 class="flex text-brand-1 font-bold">Choose an image</h2>
+                            <h2 class="flex text-brand-1 font-bold"><span data-i18n="choose_image">choose_image</span></h2>
                             <div class="ml-auto flex items-center justify-center p-3 text-xl fa fa-close" onclick="closeAdminImageSelect()"></div>
                         </div>
                         <div class="flex w-full h-full flex-col overflow-y-auto">
