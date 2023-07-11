@@ -5,7 +5,7 @@ function getImageSelect($setting, $i18ntag) {
     $files = getDirContents($dir);
     $images = '';
     foreach ($files as &$value) {
-        if (str_contains($value, 'node_modules')) {
+        if (str_contains($value, 'node_modules') || str_contains($value, 'vendor')) {
             continue;
         }
 
