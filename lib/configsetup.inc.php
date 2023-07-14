@@ -539,7 +539,7 @@ $configsetup = [
         ],
         'picture_frame' => [
             'view' => 'basic',
-            'type' => 'input',
+            'type' => 'image',
             'placeholder' => $defaultConfig['picture']['frame'],
             'name' => 'picture[frame]',
             'value' => htmlentities($config['picture']['frame'] ?? ''),

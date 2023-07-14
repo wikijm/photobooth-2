@@ -74,7 +74,7 @@ if (!file_exists($filename_print)) {
         }
 
         if ($config['print']['print_frame']) {
-            $imageHandler->framePath = $config['print']['frame'];
+            $imageHandler->framePath = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . $config['print']['frame']);
             $imageHandler->frameExtend = false;
             $source = $imageHandler->applyFrame($source);
             if (!$source) {
