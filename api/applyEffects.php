@@ -97,10 +97,10 @@ try {
         if (!$isChroma) {
             if ($isCollage && $file != $image) {
                 $editSingleCollage = true;
-                $imageHandler->framePath = $config['collage']['frame'];
+                $imageHandler->framePath = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . $config['collage']['frame']);
             } else {
                 $editSingleCollage = false;
-                $imageHandler->framePath = $config['picture']['frame'];
+                $imageHandler->framePath = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . $config['picture']['frame']);
             }
 
             if (!$isCollage || $editSingleCollage) {

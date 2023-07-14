@@ -109,7 +109,7 @@ try {
         }
 
         if ($config['picture']['take_frame']) {
-            $imageHandler->framePath = $config['picture']['frame'];
+            $imageHandler->framePath = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . $config['picture']['frame']);
             $imageHandler->frameExtend = $config['picture']['extend_by_frame'];
             if ($config['picture']['extend_by_frame']) {
                 $imageHandler->frameExtendLeft = $config['picture']['frame_left_percentage'];
