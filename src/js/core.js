@@ -773,7 +773,10 @@ const photoBooth = (function () {
                         }
                         resultVideo.show();
                         if (config.video.qr) {
-                            resultVideoQR.attr('src', config.foldersJS.api + '/qrcode.php?filename=' + data.file);
+                            resultVideoQR.attr(
+                                'src',
+                                config.foldersJS.api + '/sharelink.php?filename=' + encodeURIComponent(data.file)
+                            );
                             resultVideoQR.show();
                         }
                     }
@@ -940,8 +943,8 @@ const photoBooth = (function () {
                 $(
                     '<img src="' +
                         config.foldersJS.api +
-                        '/qrcode.php?filename=' +
-                        filename +
+                        '/sharelink.php?filename=' +
+                        encodeURIComponent(filename) +
                         '" alt="qr code" id="resultQR" class="' +
                         config.qr.result +
                         '"/>'
