@@ -176,16 +176,13 @@ const photoboothTools = (function () {
         }
     };
 
-    $(document).on('keyup', function (ev) {
-        if (config.reload.key && parseInt(config.reload.key, 10) === ev.keyCode) {
-            api.reloadPage();
-        }
-    });
+    if (config.reload.key) {
+        $(document).on('keyup', function (ev) {
+            if (parseInt(config.reload.key, 10) === ev.keyCode) {
+                api.reloadPage();
+            }
+        });
+    }
 
     return api;
 })();
-
-// Init on domready
-$(function () {
-    photoboothTools.console.log('Loglevel: ' + config.dev.loglevel);
-});
