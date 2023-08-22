@@ -343,13 +343,15 @@ function initPhotoSwipeFromDOM(gallerySelector) {
         }
     });
 
-    $(document).on('keyup', function (ev) {
-        if (config.print.from_gallery && config.print.key && parseInt(config.print.key, 10) === ev.keyCode) {
-            if (photoboothTools.isPrinting) {
-                photoboothTools.console.log('Printing already in progress!');
-            } else if ($('#gallery').hasClass('gallery--open') && typeof gallery !== 'undefined') {
-                $('.pswp__button--print').trigger('click');
+    if (config.print.key && config.print.from_gallery) {
+        $(document).on('keyup', function (ev) {
+            if (parseInt(config.print.key, 10) === ev.keyCode) {
+                if (photoboothTools.isPrinting) {
+                    photoboothTools.console.log('Printing already in progress!');
+                } else if ($('#gallery').hasClass('gallery--open') && typeof gallery !== 'undefined') {
+                    $('.pswp__button--print').trigger('click');
+                }
             }
-        }
-    });
+        });
+    }
 }
