@@ -1125,48 +1125,58 @@ const photoBooth = (function () {
         }
     };
 
-    $('.imageFilter').on('click', function (e) {
-        e.preventDefault();
-        api.navbar.toggle();
-    });
+    if (config.filters.enabled) {
+        $('.imageFilter').on('click', function (e) {
+            e.preventDefault();
+            api.navbar.toggle();
+        });
 
-    $('.sidenav > div').on('click', function () {
-        $('.sidenav > div').removeAttr('class');
-        $(this).addClass('activeSidenavBtn');
+        $('.sidenav > div').on('click', function () {
+            $('.sidenav > div').removeAttr('class');
+            $(this).addClass('activeSidenavBtn');
 
-        imgFilter = $(this).attr('id');
-        const result = {file: resultPage.attr('data-img')};
+            imgFilter = $(this).attr('id');
+            const result = {file: resultPage.attr('data-img')};
 
-        photoboothTools.console.logDev('Applying filter: ' + imgFilter, result);
+            photoboothTools.console.logDev('Applying filter: ' + imgFilter, result);
 
-        api.processPic(result);
+            api.processPic(result);
 
-        rotaryController.focusSet('#mySidenav');
-    });
+            rotaryController.focusSet('#mySidenav');
+        });
+    }
 
-    $('.takePic, .newpic').on('click', function (e) {
-        e.preventDefault();
-        api.thrill(PhotoStyle.PHOTO);
-        $(this).blur();
-    });
+    if (config.picture.enabled) {
+        $('.takePic, .newpic').on('click', function (e) {
+            e.preventDefault();
+            api.thrill(PhotoStyle.PHOTO);
+            $(this).blur();
+        });
+    }
 
-    $('.takeCollage, .newcollage').on('click', function (e) {
-        e.preventDefault();
-        api.thrill(PhotoStyle.COLLAGE);
-        $(this).blur();
-    });
+    if (config.collage.enabled) {
+        $('.takeCollage, .newcollage').on('click', function (e) {
+            e.preventDefault();
+            api.thrill(PhotoStyle.COLLAGE);
+            $(this).blur();
+        });
+    }
 
-    $('.takeCustom, .newcustom').on('click', function (e) {
-        e.preventDefault();
-        api.thrill(PhotoStyle.CUSTOM);
-        $(this).blur();
-    });
+    if (config.custom.enabled) {
+        $('.takeCustom, .newcustom').on('click', function (e) {
+            e.preventDefault();
+            api.thrill(PhotoStyle.CUSTOM);
+            $(this).blur();
+        });
+    }
 
-    $('.takeVideo, .newVideo').on('click', function (e) {
-        e.preventDefault();
-        api.thrill(PhotoStyle.VIDEO);
-        $(this).blur();
-    });
+    if (config.video.enabled) {
+        $('.takeVideo, .newVideo').on('click', function (e) {
+            e.preventDefault();
+            api.thrill(PhotoStyle.VIDEO);
+            $(this).blur();
+        });
+    }
 
     $('#mySidenav .closebtn').on('click', function (e) {
         e.preventDefault();
@@ -1188,72 +1198,78 @@ const photoBooth = (function () {
         api.closeGallery();
     });
 
-    $('.mailbtn').on('click touchstart', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
+    if (config.mail.enabled) {
+        $('.mailbtn').on('click touchstart', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-        const img = resultPage.attr('data-img');
+            const img = resultPage.attr('data-img');
 
-        api.toggleMailDialog(img);
-    });
-
-    mailSendForm.on('submit', function (e) {
-        e.preventDefault();
-
-        const form = $(this);
-        const submitButton = form.find('.btn');
-
-        mailMessageForm.empty();
-        submitButton.html('<i class="' + config.icons.mail_submit + '"></i>');
-
-        $.ajax({
-            url: config.foldersJS.api + '/sendPic.php',
-            type: 'POST',
-            data: form.serialize(),
-            dataType: 'json',
-            cache: false,
-            success: function (result) {
-                submitButton.empty();
-                submitButton.hide();
-                if (result.success) {
-                    if (result.saved) {
-                        mailMessageForm
-                            .fadeIn()
-                            .html(
-                                '<span style="color:green">' + photoboothTools.getTranslation('mailSaved') + '</span>'
-                            );
-                    } else {
-                        mailMessageForm
-                            .fadeIn()
-                            .html(
-                                '<span style="color:green">' + photoboothTools.getTranslation('mailSent') + '</span>'
-                            );
-                    }
-                } else {
-                    mailMessageForm.fadeIn().html('<span style="color:red">' + result.error + '</span>');
-                }
-            },
-            error: function () {
-                mailMessageForm
-                    .fadeIn('fast')
-                    .html('<span style="color: red;">' + photoboothTools.getTranslation('mailError') + '</span>');
-            }
+            api.toggleMailDialog(img);
         });
 
-        setTimeout(function () {
-            submitButton.show();
-            if (config.mail.send_all_later) {
-                submitButton.html('<span>' + photoboothTools.getTranslation('add') + '</span>');
-            } else {
-                submitButton.html('<span>' + photoboothTools.getTranslation('send') + '</span>');
-            }
-        }, notificationTimeout);
-    });
+        mailSendForm.on('submit', function (e) {
+            e.preventDefault();
 
-    $('#send-mail-close').on('click', function () {
-        api.resetMailForm();
-        sendMail.removeClass('mail-active').fadeOut('fast');
-    });
+            const form = $(this);
+            const submitButton = form.find('.btn');
+
+            mailMessageForm.empty();
+            submitButton.html('<i class="' + config.icons.mail_submit + '"></i>');
+
+            $.ajax({
+                url: config.foldersJS.api + '/sendPic.php',
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'json',
+                cache: false,
+                success: function (result) {
+                    submitButton.empty();
+                    submitButton.hide();
+                    if (result.success) {
+                        if (result.saved) {
+                            mailMessageForm
+                                .fadeIn()
+                                .html(
+                                    '<span style="color:green">' +
+                                        photoboothTools.getTranslation('mailSaved') +
+                                        '</span>'
+                                );
+                        } else {
+                            mailMessageForm
+                                .fadeIn()
+                                .html(
+                                    '<span style="color:green">' +
+                                        photoboothTools.getTranslation('mailSent') +
+                                        '</span>'
+                                );
+                        }
+                    } else {
+                        mailMessageForm.fadeIn().html('<span style="color:red">' + result.error + '</span>');
+                    }
+                },
+                error: function () {
+                    mailMessageForm
+                        .fadeIn('fast')
+                        .html('<span style="color: red;">' + photoboothTools.getTranslation('mailError') + '</span>');
+                }
+            });
+
+            setTimeout(function () {
+                submitButton.show();
+                if (config.mail.send_all_later) {
+                    submitButton.html('<span>' + photoboothTools.getTranslation('add') + '</span>');
+                } else {
+                    submitButton.html('<span>' + photoboothTools.getTranslation('send') + '</span>');
+                }
+            }, notificationTimeout);
+        });
+
+        $('#send-mail-close').on('click', function () {
+            api.resetMailForm();
+            sendMail.removeClass('mail-active').fadeOut('fast');
+        });
+    }
 
     resultPage.on('click', function () {
         if (!mySideNav.hasClass('sidenav--open')) {
@@ -1261,40 +1277,48 @@ const photoBooth = (function () {
         }
     });
 
-    qrBtn.on('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
+    if (config.qr.enabled) {
+        qrBtn.on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-        photoboothTools.modal.open('#qrCode');
-    });
+            photoboothTools.modal.open('#qrCode');
+        });
+    }
 
-    $('.homebtn').on('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
+    if (config.button.homescreen) {
+        $('.homebtn').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-        photoboothTools.reloadPage();
+            photoboothTools.reloadPage();
 
-        rotaryController.focusSet('#start');
-    });
+            rotaryController.focusSet('#start');
+        });
+    }
 
-    $('#cups-button').on('click', function (ev) {
-        ev.preventDefault();
+    if (config.button.show_cups) {
+        $('#cups-button').on('click', function (ev) {
+            ev.preventDefault();
 
-        const url = `http://${location.hostname}:631/jobs/`;
-        const features = 'width=1024,height=600,left=0,top=0,screenX=0,screenY=0,resizable=NO,scrollbars=NO';
+            const url = `http://${location.hostname}:631/jobs/`;
+            const features = 'width=1024,height=600,left=0,top=0,screenX=0,screenY=0,resizable=NO,scrollbars=NO';
 
-        window.open(url, 'newwin', features);
-    });
+            window.open(url, 'newwin', features);
+        });
+    }
 
-    $('#fs-button').on('click', function (e) {
-        e.preventDefault();
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        } else {
-            document.body.requestFullscreen();
-        }
-        $('#fs-button').blur();
-    });
+    if (config.button.show_fs) {
+        $('#fs-button').on('click', function (e) {
+            e.preventDefault();
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                document.body.requestFullscreen();
+            }
+            $('#fs-button').blur();
+        });
+    }
 
     api.handleButtonPressWhileTakingPic = function () {
         if (api.nextCollageNumber > 0) {
