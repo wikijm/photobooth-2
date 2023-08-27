@@ -2,6 +2,7 @@
 
 $fileRoot = '../';
 require_once($fileRoot . 'lib/config.php');
+include($fileRoot . 'template/components/helper/index.php');
 
 $pageTitle = $config['ui']['branding'] . ' Gallery';
 $mainStyle = $config['ui']['style'] . '_style.css';
@@ -10,12 +11,22 @@ $randomImage = false;
 $remoteBuzzer = true;
 $chromaKeying = false;
 $GALLERY_FOOTER = false;
+$gallery_standalone = true;
 
 include($fileRoot . 'template/components/main.head.php');
+
+if($config['ui']['style'] == 'evolution') {
+    $templateFolder = 'template/components/'. $config['ui']['style'] . '/';
+} else {
+    $templateFolder = 'template';
+}
 ?>
 <body class="deselect">
 	<div id="wrapper">
-		<?php include($fileRoot . 'template/gallery.template.php'); ?>
+		<?php 
+            $gallery_path = "../";
+			include($fileRoot . $templateFolder .'gallery.template.php'); 
+		?>
     </div>
 
 	<script type="text/javascript">
