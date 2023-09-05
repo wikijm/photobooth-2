@@ -506,75 +506,59 @@ const photoBooth = (function () {
                     } else {
                         // collage with interruption
                         if (result.current + 1 < result.limit) {
-                            $(
-                                '<a class="btn rotaryfocus" href="#" id="btnCollageNext">' +
-                                    photoboothTools.getTranslation('nextPhoto') +
-                                    '</a>'
-                            )
-                                .appendTo('.loading')
-                                .click((ev) => {
-                                    ev.stopPropagation();
-                                    ev.preventDefault();
-
-                                    loaderImage.css('background-image', 'none');
-                                    imageUrl = '';
-                                    loaderImage.css('display', 'none');
-                                    api.thrill(PhotoStyle.COLLAGE);
-                                });
+                            $('#btnCollageNext').removeClass('hidden');
+                            $('#btnCollageNext').click((ev) => {
+                                ev.stopPropagation();
+                                ev.preventDefault();
+                                $('#btnCollageNext').addClass('hidden');
+                                loaderImage.css('background-image', 'none');
+                                imageUrl = '';
+                                loaderImage.css('display', 'none');
+                                api.thrill(PhotoStyle.COLLAGE);
+                            });
 
                             remoteBuzzerClient.collageWaitForNext();
                         } else {
-                            $(
-                                '<a class="btn rotaryfocus" href="#" id="btnCollageProcess">' +
-                                    photoboothTools.getTranslation('processPhoto') +
-                                    '</a>'
-                            )
-                                .appendTo('.loading')
-                                .click((ev) => {
-                                    ev.stopPropagation();
-                                    ev.preventDefault();
+                            $('#btnCollageProcess').removeClass('hidden');
+                            $('#btnCollageProcess').click((ev) => {
+                                ev.stopPropagation();
+                                ev.preventDefault();
 
-                                    loaderImage.css('background-image', 'none');
-                                    imageUrl = '';
-                                    loaderImage.css('display', 'none');
-                                    currentCollageFile = '';
-                                    api.nextCollageNumber = 0;
+                                $('#btnCollageProcess').addClass('hidden');
+                                loaderImage.css('background-image', 'none');
+                                imageUrl = '';
+                                loaderImage.css('display', 'none');
+                                currentCollageFile = '';
+                                api.nextCollageNumber = 0;
 
-                                    api.processPic(result);
-                                });
+                                api.processPic(result);
+                            });
 
                             remoteBuzzerClient.collageWaitForProcessing();
                         }
 
-                        $(
-                            '<a class="btn rotaryfocus" style="margin-left:2px" href="#">' +
-                                photoboothTools.getTranslation('retakePhoto') +
-                                '</a>'
-                        )
-                            .appendTo('.loading')
-                            .click((ev) => {
-                                ev.stopPropagation();
-                                ev.preventDefault();
-                                loaderImage.css('background-image', 'none');
-                                imageUrl = '';
-                                loaderImage.css('display', 'none');
-                                api.deleteImage(result.collage_file, () => {
-                                    setTimeout(function () {
-                                        api.nextCollageNumber = result.current;
-                                        api.thrill(PhotoStyle.COLLAGE);
-                                    }, notificationTimeout);
-                                });
-                            });
+                        $('#btnCollageRetake').removeClass('hidden');
+                        $('#btnCollageRetake').click((ev) => {
+                            ev.stopPropagation();
+                            ev.preventDefault();
 
-                        loading
-                            .append(
-                                $('<a class="btn rotaryfocus" style="margin-left:2px" href="#">').text(
-                                    photoboothTools.getTranslation('abort')
-                                )
-                            )
-                            .click(() => {
-                                location.assign('./');
+                            $('#btnCollageRetake').addClass('hidden');
+                            loaderImage.css('background-image', 'none');
+                            imageUrl = '';
+                            loaderImage.css('display', 'none');
+                            api.deleteImage(result.collage_file, () => {
+                                setTimeout(function () {
+                                    api.nextCollageNumber = result.current;
+                                    api.thrill(PhotoStyle.COLLAGE);
+                                }, notificationTimeout);
                             });
+                        });
+
+                        $('#btnCollageAbort').removeClass('hidden');
+                        $('#btnCollageAbort').click(() => {
+                            $('#btnCollageAbort').addClass('hidden');
+                            location.assign('./');
+                        });
 
                         rotaryController.focusSet('.loading.rotarygroup');
                     }
@@ -842,7 +826,7 @@ const photoBooth = (function () {
                     .appendTo(body);
             })
             .appendTo(body);
-        $(modal).addClass('shape--' + config.ui.style);
+        $(modal).addClass('rounded');
     };
 
     api.renderPic = function (filename, files) {
