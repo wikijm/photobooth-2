@@ -22,8 +22,10 @@ if (
     exit();
 }
 
+include($fileRoot . 'template/components/main.defaults.php');
 include($fileRoot . 'template/components/main.head.php');
-$btnClass = 'btn btn--' . $config['ui']['button'] . ' chromaCapture-btn';
+
+$btnClass = $actionBtnClass . ' chromaCapture-btn';
 ?>
 <body>
 <div id="blocker"></div>
@@ -32,11 +34,11 @@ $btnClass = 'btn btn--' . $config['ui']['button'] . ' chromaCapture-btn';
     <div class="rotarygroup" id="start">
         <div class="top-bar">
             <?php if (!$config['chromaCapture']['enabled']): ?>
-                <a href="<?=$fileRoot?>index.php" class="<?php echo $btnClass; ?> chromaCapture-close-btn rotaryfocus"><i class="<?php echo $config['icons']['close']; ?>"></i></a>
+                <a href="<?=$fileRoot?>index.php" class="<?php echo $btnClass; ?> chromaCapture-close-btn rotaryfocus"><i class="<?php echo $config['icons']['close']; ?> m-2"></i></a>
             <?php endif; ?>
 
             <?php if ($config['gallery']['enabled']): ?>
-                <a href="#" class="<?php echo $btnClass ?> chromaCapture-gallery-btn rotaryfocus"><i class="<?php echo $config['icons']['gallery']; ?>"></i>
+                <a href="#" class="<?php echo $btnClass ?> chromaCapture-gallery-btn rotaryfocus"><i class="<?php echo $config['icons']['gallery']; ?> m-2"></i>
                     <span data-i18n="gallery"></span></a>
             <?php endif; ?>
         </div>
@@ -85,13 +87,13 @@ $btnClass = 'btn btn--' . $config['ui']['button'] . ' chromaCapture-btn';
         </div>
 
         <div class="chroma-control-bar">
-            <a href="#" class="<?php echo $btnClass; ?> takeChroma chromaCapture rotaryfocus"><i class="<?php echo $config['icons']['take_picture']; ?>"></i>
+            <a href="#" class="<?php echo $btnClass; ?> takeChroma chromaCapture rotaryfocus"><i class="<?php echo $config['icons']['take_picture']; ?> m-2"></i>
                 <span data-i18n="takePhoto"></span></a>
             <?php if ($config['picture']['allow_delete']): ?>
-                <a href="#" class="<?php echo $btnClass; ?> deletebtn chromaCapture"><i class="<?php echo $config['icons']['delete']; ?>"></i> <span
+                <a href="#" class="<?php echo $btnClass; ?> deletebtn chromaCapture"><i class="<?php echo $config['icons']['delete']; ?> m-2"></i> <span
                             data-i18n="delete"></span></a>
             <?php endif; ?>
-            <a href="#" class="<?php echo $btnClass; ?> reloadPage chromaCapture rotaryfocus"><i class="<?php echo $config['icons']['refresh']; ?>"></i>
+            <a href="#" class="<?php echo $btnClass; ?> reloadPage chromaCapture rotaryfocus"><i class="<?php echo $config['icons']['refresh']; ?> m-2"></i>
                 <span data-i18n="reload"></span></a>
         </div>
     </div>

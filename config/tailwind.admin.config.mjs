@@ -27,13 +27,16 @@ export default {
         'gallery-button': 'var(--gallery-button, #ffffff)',
         'countdown': 'var(--border, #1b3faa)',
         'countdown-bg': 'var(--countdown-bg, #8d9fd4)',
-        'cheese': 'var(--cheese, #aa1b3f)',
+        'cheese': 'var(--cheese, #aa1b3f)'
       },
       boxShadow: {
         "xl": "0 3px 20px #0000001c"
       },
       maxWidth: {
         "admin": "2000px"
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))'
       },
       spacing: {
         '1/1': '100%',

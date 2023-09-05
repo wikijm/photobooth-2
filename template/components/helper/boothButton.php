@@ -1,38 +1,31 @@
 <?php
 function getBoothButton($label, $icon, $command, $type = 'md') {
     global $config;
-    $btnClass = 'btn btn--' . $config['ui']['button'];
-    $btnClass .= ' ' . $command;
+    global $actionBtnClass;
+    $thisBtnClass = $actionBtnClass;
+    $thisBtnClass .= ' ' . $command;
 
     if (($command != 'deletebtn' && $label != 'cups-button') || ($command == 'deletebtn' && $config['delete']['no_request'])) {
-        $btnClass .= ' rotaryfocus';
+        $thisBtnClass .= ' rotaryfocus';
     }
 
     if (($config['ui']['style'] == 'classic' || $config['ui']['style'] == 'classic_rounded') && $type == 'xs') {
-        $btnClass .= ' btn--small';
+        $thisBtnClass .= ' btn--small';
     }
 
     if ($label == 'cups-button') {
-        $btnClass .= '" target="newwin';
+        $thisBtnClass .= '" target="newwin';
     }
 
     if ($command == 'reload') {
-        $btnClass .= '" onclick="window.location.reload();';
+        $thisBtnClass .= '" onclick="window.location.reload();';
     }
 
-    return '<a href="#" class="' .
-        $btnClass .
-        '">
-            <i class="' .
-        $icon .
-        ' mb-2"></i>
-            <span class="text-sm whitespace-nowrap" data-i18n="' .
-        $label .
-        '">
-                ' .
-        $label .
-        '
-            </span>
-        </a>';
+    $iconPosition = $config['ui']['button'] == 'classic' || $config['ui']['button'] == 'classic_rounded' ? 'mr-2' : ($config['ui']['button'] == 'modern' ? '' : 'mb-2');
+
+    $iconElement = '<i class="' . $icon . ' ' . $iconPosition . '"></i>';
+    $spanElement = $config['ui']['button'] == 'modern' ? '' : '<span class="text-sm whitespace-nowrap" data-i18n="' . $label . '"></span>';
+
+    return '<a href="#" class="' . $thisBtnClass . '">' . $iconElement . $spanElement . '</a>';
 } ?>
 

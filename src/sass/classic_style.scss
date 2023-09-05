@@ -93,21 +93,6 @@
   transition: bottom 0.5s;
   z-index: 100;
 
-  .homebtn,
-  .gallerybtn {
-    &.btn--classic,
-    &.btn--classic_rounded {
-      font-size: 0.875em;
-      width: 130px;
-    }
-  }
-
-  .btn {
-    &.btn--classic_rounded {
-      margin-left: 2px;
-    }
-  }
-
   &.show {
     bottom: 0;
 
@@ -122,10 +107,6 @@
       position: fixed;
       top: 5px;
       left: 5px;
-      &.btn--classic_rounded {
-        margin-top: auto;
-        margin-left: auto;
-      }
     }
   }
 }
@@ -205,11 +186,6 @@
     padding: 3rem;
     z-index: 1;
 
-    &.shape--classic_rounded {
-      border: 0 none;
-      border-radius: 10px;
-    }
-
     .names {
       margin-top: 2rem;
       margin-bottom: 5rem;
@@ -260,37 +236,18 @@
     position: fixed;
     top: 5px;
     left: 5px;
-    &.btn--classic_rounded {
-      margin-top: auto;
-      margin-left: auto;
-    }
   }
 
   .fs-button {
     position: fixed;
     top: 5.5rem;
     left: 5px;
-    &.btn--classic_rounded {
-      margin-top: auto;
-      margin-left: auto;
-    }
   }
 
   .cups-button {
     position: fixed;
     bottom: 5px;
     left: 5px;
-  }
-
-  .gallery-button,
-  .fs-button,
-  .cups-button {
-    &.btn--classic,
-    &.btn--classic_rounded {
-      width: auto;
-      padding: 10px 10px;
-      margin-top: 3px;
-    }
   }
 }
 
@@ -346,17 +303,6 @@
 
 .rotaryfocus.focused {
   opacity: 0.6;
-}
-
-button {
-  &.btn--classic {
-    border: 1px solid $borderColor;
-  }
-
-  &.btn--classic_rounded {
-    border: 2px solid $borderColor;
-    border-radius: 10px;
-  }
 }
 
 .pswp-rotary-focus {
