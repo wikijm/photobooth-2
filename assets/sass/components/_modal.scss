@@ -27,6 +27,10 @@
   --modal-button-focus-background: color-mix(in srgb, var(--modal-button-background), var(--modal-button-color) 20%);
 }
 
+.form-message {
+  font-size: 2rem;
+}
+
 .modal {
   display: flex;
   position: fixed;
