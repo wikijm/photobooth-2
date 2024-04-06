@@ -8,6 +8,7 @@ use Photobooth\Utility\PathUtility;
 
 $assetService = AssetService::getInstance();
 
+
 if (!$config['ui']['skip_welcome']) {
     if (!is_file(PathUtility::getAbsolutePath('welcome/.skip_welcome'))) {
         header('location: ' . PathUtility::getPublicPath('welcome'));
