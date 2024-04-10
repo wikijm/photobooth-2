@@ -26,6 +26,7 @@ include PathUtility::getAbsolutePath('template/components/main.head.php');
     <script src="<?=$assetService->getUrl('resources/js/preview.js')?>"></script>
     <script src="<?=$assetService->getUrl('resources/js/core.js')?>"></script>
     <script src="<?=$assetService->getUrl('resources/js/gallery.js')?>"></script>
+    <script src="<?=$assetService->getUrl('resources/js/premium.js')?>"></script>
     <?php if ($config['gallery']['db_check_enabled']): ?>
     <script src="<?=$assetService->getUrl('resources/js/gallery-updatecheck.js')?>"></script>
     <?php endif; ?>

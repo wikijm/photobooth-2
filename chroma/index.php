@@ -28,8 +28,7 @@ $remoteBuzzer = true;
 include PathUtility::getAbsolutePath('template/components/main.head.php');
 
 ?>
-<body class="gallery-mode--overlay ">
-
+<body class="gallery-mode--overlay premium-mode--overlay">
 <?php include PathUtility::getAbsolutePath('template/components/preview.php'); ?>
 <?php include PathUtility::getAbsolutePath('template/components/chroma.canvas.php'); ?>
 

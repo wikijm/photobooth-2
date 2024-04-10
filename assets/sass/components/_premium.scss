@@ -1,0 +1,218 @@
+/**
+ * Premium mode
+ */
+.premium {
+  background-color: #c8c8c8;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  // background: var(--premium-background);/
+  color: var(--premium-color);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    background: var(--premium-bar-background);
+    color: var(--premium-bar-color);
+  }
+
+  &-body {
+    padding: 2rem;
+    flex-grow: 1;
+    overflow-y: scroll;
+  }
+
+  &-title {
+    flex-grow: 1;
+    h1 {
+      margin: 0;
+    }
+  }
+}
+
+/**
+ *Overlay
+ **/
+.premium-mode--overlay {
+  .premium {
+    translate: -100% 0;
+    transition: translate 0.3s ease-in-out;
+    &-body {
+      overflow: hidden;
+      height: 0;
+      width: 0;
+      flex-grow: 0;
+      padding: 0;
+    }
+
+    &.premium--open {
+      translate: 0 0;
+
+      .premium-body {
+        overflow-y: scroll;
+        padding: 2rem;
+        height: auto;
+        width: auto;
+        flex-grow: 1;
+      }
+    }
+  }
+}
+
+.heading {
+  color: black;
+  font-size: 2em;
+}
+
+// collage.scss
+#collage-options {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.collage-option {
+  background-color: blue($color: #000000);
+  padding: 10px 20px;
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #ddd;
+  }
+
+  &.selected {
+    background-color: #000;
+    color: #fff;
+  }
+}
+
+#next-button {
+  display: block;
+  margin: 0 auto;
+  padding: 10px 20px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  opacity: 0.5;
+  pointer-events: none;
+
+  &:hover {
+    background-color: #333;
+  }
+
+  &:not([disabled]) {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+// quantity.scss
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+
+.quantity-selector {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 2px solid #000;
+}
+
+.quantity-selector button {
+  padding: 15px 30px;
+  font-size: 1.5em;
+}
+
+.quantity {
+  font-size: 2em;
+  color: black;
+}
+
+.price {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.next-button {
+  padding: 15px 30px;
+  font-size: 1.5em;
+}
+
+// shooting.scss
+.shooting-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 2px solid #000;
+}
+
+.image-container {
+  display: grid;
+  grid-template-columns: repeat(3, 150px);
+  gap: 5px;
+}
+
+.next-button {
+  padding: 15px 30px;
+  font-size: 1.5em;
+}
+
+.select-image {
+  //set width and height to fit into grid
+  width: 150px;
+  height: 150px;
+}
+
+.collage-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 100px; /* jedna kolona */
+  grid-template-rows: repeat(4, 100px); /* četiri reda */
+  gap: 5px;
+  justify-content: center; /* centralizuje slike */
+  align-items: center; /* centralizuje slike */
+  background-color: white; /* bela pozadina */
+}
+.collage-container .placeholder {
+  border: 1px solid gray; /* Beli okvir oko svake slike */
+  background-color: white; /* Bela pozadina unutar okvira */
+}
+.collage-container img {
+  max-width: 100px; /* Maksimalna širina */
+  max-height: 100px; /* Maksimalna visina */
+  border: 1px solid white; /* Beli okvir oko slike */
+  background-color: white; /* Bela pozadina unutar okvira */
+}
+.selected {
+  filter: grayscale(100%);
+}

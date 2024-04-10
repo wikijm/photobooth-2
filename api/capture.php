@@ -50,7 +50,7 @@ try {
 
             $number = $_POST['collageNumber'] + 0;
 
-            if ($number > $config['collage']['limit']) {
+            if ($number > $config['collage']['limit'] && !isset($_POST['premium'])) {
                 throw new \Exception('Collage consists only of ' . $config['collage']['limit'] . ' pictures');
             }
 
@@ -58,7 +58,7 @@ try {
             $captureHandler->tmpFile = substr($filename_tmp, 0, -4) . '-' . $number . '.jpg';
             $captureHandler->style = 'collage';
             $captureHandler->collageNumber = intval($number);
-            $captureHandler->collageLimit = $config['collage']['limit'];
+            $captureHandler->collageLimit = isset($_POST['premium']) ? 9 : $config['collage']['limit'];
             break;
         case 'chroma':
             $captureHandler->style = 'chroma';

@@ -14,63 +14,70 @@ import path from 'path';
 import crypto from 'crypto';
 
 gulp.task('sass', function () {
-  const twFilter = filters(['**/*', '!tailwind.admin.scss']);
+    const twFilter = filters(['**/*', '!tailwind.admin.scss']);
 
-  return gulp
-    .src('./assets/sass/**/*.scss')
-    .pipe(twFilter)
-    .pipe(sass().on('error', sass.logError)) // Use sass() without .sync
-    .pipe(gulp.dest('./resources/css'));
+    return gulp
+        .src('./assets/sass/**/*.scss')
+        .pipe(twFilter)
+        .pipe(sass().on('error', sass.logError)) // Use sass() without .sync
+        .pipe(gulp.dest('./resources/css'));
 });
 
 gulp.task('js', function () {
-  return gulp
-    .src('./assets/js/**/*.js')
-    .pipe(babel({
-      presets: ['@babel/env'],
-      ignore: ['assets/js/sync-to-drive.js', 'assets/js/remotebuzzer-server.js']
-    }))
-    .pipe(gulp.dest('./resources/js'));
+    return gulp
+        .src('./assets/js/**/*.js')
+        .pipe(
+            babel({
+                presets: ['@babel/env'],
+                ignore: ['assets/js/sync-to-drive.js', 'assets/js/remotebuzzer-server.js']
+            })
+        )
+        .pipe(gulp.dest('./resources/js'));
 });
 
 gulp.task('tailwind-admin', function () {
-  const plugins = [
-    tailwindcss(twAdminConfig),
-    autoprefixer(),
-  ];
+    const plugins = [tailwindcss(twAdminConfig), autoprefixer()];
 
-  return gulp
-    .src('./assets/sass/tailwind.admin.scss')
-    .pipe(sass({
-      importer: nodeSassImporter
-    }).on('error', sass.logError))
-    .pipe(rename({
-      extname: '.scss'
-    }))
-    .pipe(postcss(plugins))
-    .pipe(rename({
-      extname: '.css'
-    }))
-    .pipe(gulp.dest('./resources/css'));
+    return gulp
+        .src('./assets/sass/tailwind.admin.scss')
+        .pipe(
+            sass({
+                importer: nodeSassImporter
+            }).on('error', sass.logError)
+        )
+        .pipe(
+            rename({
+                extname: '.scss'
+            })
+        )
+        .pipe(postcss(plugins))
+        .pipe(
+            rename({
+                extname: '.css'
+            })
+        )
+        .pipe(gulp.dest('./resources/css'));
 });
 
 gulp.task('js-admin', function () {
-  return gulp
-    .src([
-      './assets/js/tools.js',
-      './assets/js/admin/index.js',
-      './assets/js/admin/buttons.js',
-      './assets/js/admin/navi.js',
-      './assets/js/admin/keypad.js',
-      './assets/js/admin/imageSelect.js',
-      './assets/js/admin/toast.js',
-    ])
-    .pipe(concat('main.admin.js'))
-    .pipe(babel({
-      presets: ['@babel/env'],
-      ignore: ['assets/js/sync-to-drive.js', 'assets/js/remotebuzzer-server.js']
-    }))
-    .pipe(gulp.dest('./resources/js'));
+    return gulp
+        .src([
+            './assets/js/tools.js',
+            './assets/js/admin/index.js',
+            './assets/js/admin/buttons.js',
+            './assets/js/admin/navi.js',
+            './assets/js/admin/keypad.js',
+            './assets/js/admin/imageSelect.js',
+            './assets/js/admin/toast.js'
+        ])
+        .pipe(concat('main.admin.js'))
+        .pipe(
+            babel({
+                presets: ['@babel/env'],
+                ignore: ['assets/js/sync-to-drive.js', 'assets/js/remotebuzzer-server.js']
+            })
+        )
+        .pipe(gulp.dest('./resources/js'));
 });
 
 async function generateAssetRevisions() {
@@ -104,7 +111,9 @@ async function generateAssetRevisions() {
     fs.writeFileSync(revisionsManifest, manifestJSON);
 }
 
-gulp.task('default', gulp.series(
-    gulp.parallel('sass', 'js', 'js-admin', 'tailwind-admin'),
-    generateAssetRevisions
-));
+gulp.task('default', gulp.series(gulp.parallel('sass', 'js', 'js-admin', 'tailwind-admin'), generateAssetRevisions));
+
+gulp.task('watch', function () {
+    gulp.watch('./assets/js/**/*.js', gulp.series('js'));
+    gulp.watch('./assets/sass/**/*.scss', gulp.series('sass', 'tailwind-admin'));
+});

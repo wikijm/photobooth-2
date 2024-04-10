@@ -39,7 +39,8 @@ if (
 include PathUtility::getAbsolutePath('template/components/main.head.php');
 ?>
 
-<body class="gallery-mode--overlay ">
+<body class="gallery-mode--overlay premium-mode--overlay">
+<body class="premium-mode--overlay ">
 <?php include PathUtility::getAbsolutePath('template/components/preview.php'); ?>
 
 <?php if ($config['video']['enabled'] && $config['video']['animation']): ?>
@@ -64,6 +65,10 @@ include PathUtility::getAbsolutePath('template/components/stage.results.php');
 
 if ($config['gallery']['enabled']) {
     include PathUtility::getAbsolutePath('template/components/gallery.php');
+}
+
+if (!$config['premium']['enabled']) {
+    include PathUtility::getAbsolutePath('template/components/premium.php');
 }
 
 if ($config['filters']['enabled']) {

@@ -1,12 +1,12 @@
 /* globals initPhotoSwipeFromDOM initRemoteBuzzerFromDOM processChromaImage remoteBuzzerClient rotaryController globalGalleryHandle photoboothTools photoboothPreview */
-
 const photoBooth = (function () {
     const PhotoStyle = {
             PHOTO: 'photo',
             COLLAGE: 'collage',
             CHROMA: 'chroma',
             VIDEO: 'video',
-            CUSTOM: 'custom'
+            CUSTOM: 'custom',
+            PREMIUM: 'premium'
         },
         CameraDisplayMode = {
             INIT: 1,
@@ -47,6 +47,7 @@ const photoBooth = (function () {
         buttonDelete = $('[data-command="deletebtn"]'),
         buttonPrint = $('[data-command="printbtn"]'),
         gallery = $('#gallery'),
+        premium = $('#premium'),
         filternav = $('#filternav'),
         galimages = $('#galimages'),
         videoAnimation = $('#videoAnimation'),
@@ -106,6 +107,8 @@ const photoBooth = (function () {
 
         gallery.removeClass('gallery--open');
         gallery.find('.gallery__inner').hide();
+        premium.removeClass('premium--open');
+        premium.find('.premium__inner').hide();
         previewVideo.hide();
         previewFrameCollage.hide();
         previewFramePicture.hide();
@@ -396,7 +399,14 @@ const photoBooth = (function () {
             });
     };
 
-    api.thrill = async (photoStyle, retry = 0) => {
+    api.thrill = async (photoStyle, retry = 0, premiumConfig) => {
+        if (photoStyle === PhotoStyle.PREMIUM) {
+            photoStyle = PhotoStyle.COLLAGE;
+            config.collage.limit = 9;
+            config.collage.premium = true;
+            config.collage.layout = premiumConfig.collage;
+            config.collage.printNumber = Number(premiumConfig.quantity);
+        }
         if (api.takingPic) {
             photoboothTools.console.logDev('ERROR: Taking picture in progress already!');
 
@@ -405,6 +415,8 @@ const photoBooth = (function () {
         api.navbar.close();
         api.reset();
         api.closeGallery();
+        api.closePremium();
+        
 
         remoteBuzzerClient.inProgress(photoStyle);
         api.takingPic = true;
@@ -427,9 +439,11 @@ const photoBooth = (function () {
         }
         api.photoStyle = photoStyle;
         photoboothTools.console.log('PhotoStyle: ' + api.photoStyle);
-
         let countdownTime;
         switch (api.photoStyle) {
+            case PhotoStyle.PREMIUM:
+                countdownTime = 0;
+                break;
             case PhotoStyle.COLLAGE:
                 countdownTime = config.collage.cntdwn_time;
                 break;
@@ -494,9 +508,10 @@ const photoBooth = (function () {
             photoboothTools.getRequest(getUrl);
         }
 
-        await api.countdown.start(countdownTime);
+        if (!api.photoStyle === PhotoStyle.PREMIUM) {
+            await api.countdown.start(countdownTime);
+        }
         await api.cheese.start();
-
         if (config.preview.camTakesPic && !photoboothPreview.stream && !config.dev.demo_images) {
             api.errorPic({
                 error: 'No preview by device cam available!'
@@ -526,6 +541,9 @@ const photoBooth = (function () {
             style: api.photoStyle,
             canvasimg: videoSensor.get(0).toDataURL('image/jpeg')
         };
+        if (config.collage.premium) {
+            data.premium = true;
+        }
 
         if (api.photoStyle === PhotoStyle.COLLAGE) {
             data.file = currentCollageFile;
@@ -537,7 +555,7 @@ const photoBooth = (function () {
         }
 
         loader.css('--stage-background', config.colors.background_countdown);
-
+        console.log('radi', retry);
         api.callTakePicApi(data, retry);
     };
 
@@ -634,7 +652,13 @@ const photoBooth = (function () {
                                 loaderImage.css('background-image', 'none');
                                 loaderImage.attr('data-img', null);
                                 imageUrl = '';
-                                api.processPic(result);
+                                if (config.collage.premium) {
+                                    localStorage.setItem('result', JSON.stringify(result));
+                                    api.showPremiumFlow();
+                                    // api.selectImages(result);
+                                } else {
+                                    api.processPic(result);
+                                }
                             }, continuousCollageTime);
                         }
                     } else {
@@ -1255,6 +1279,36 @@ const photoBooth = (function () {
         }, 300);
     };
 
+    api.showPremiumFlow = function () {
+        if (config.premium.scrollbar) {
+            premium.addClass('scrollbar');
+        }
+
+        premium.addClass('premium--open');
+
+        setTimeout(() => {
+            premium.find('.premium__inner').show();
+            rotaryController.focusSet(premium);
+        }, 300);
+    };
+
+    api.closePremium = function () {
+        // if (typeof globalGalleryHandle !== 'undefined') {
+        //     if (globalGalleryHandle.pswp) {
+        //         globalGalleryHandle.pswp.close();
+        //     }
+        // }
+
+        premium.find('.premium__inner').hide();
+        premium.removeClass('premium--open');
+        localStorage.removeItem('result');
+        if (resultPage.is(':visible')) {
+            rotaryController.focusSet(resultPage);
+        } else if (startPage.is(':visible')) {
+            rotaryController.focusSet(startPage);
+        }
+    };
+
     api.closeGallery = function () {
         if (typeof globalGalleryHandle !== 'undefined') {
             if (globalGalleryHandle.pswp) {
@@ -1336,6 +1390,17 @@ const photoBooth = (function () {
         e.preventDefault();
         api.thrill(PhotoStyle.COLLAGE);
         $(this).trigger('blur');
+    });
+
+    $('.premium-button, .premiumbtn').on('click', function (e) {
+        e.preventDefault();
+        api.navbar.close();
+        api.showPremiumFlow($(this));
+    });
+
+    $('[data-command="premium__close"]').on('click', function (e) {
+        e.preventDefault();
+        api.closePremium();
     });
 
     $('.takeCustom, .newcustom').on('click', function (e) {

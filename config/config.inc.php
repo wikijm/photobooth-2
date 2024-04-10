@@ -56,6 +56,10 @@ $config['event']['symbol'] = 'fa-heart-o';
 $config['event']['textRight'] = '';
 $config['button']['force_buzzer'] = false;
 
+
+// PREMIUM mode (mode with payment)
+$config['premium']['enabled'] = true;
+
 // P I C T U R E S
 $config['picture']['enabled'] = true;
 // control countdown timer in seconds

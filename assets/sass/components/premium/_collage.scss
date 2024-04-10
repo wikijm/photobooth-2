@@ -1,0 +1,48 @@
+// collage.scss
+
+#collage-options {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.collage-option {
+  background-color: blue($color: #000000);
+  padding: 10px 20px;
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #ddd;
+  }
+
+  &.selected {
+    background-color: #000;
+    color: #fff;
+  }
+}
+
+#next-button {
+  display: block;
+  margin: 0 auto;
+  padding: 10px 20px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  opacity: 0.5;
+  pointer-events: none;
+
+  &:hover {
+    background-color: #333;
+  }
+
+  &:not([disabled]) {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

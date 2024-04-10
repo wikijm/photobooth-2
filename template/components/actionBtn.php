@@ -8,6 +8,8 @@ $languageService = LanguageService::getInstance();
 echo '<div class="buttonbar">';
 if ($config['button']['force_buzzer']) {
     echo '<div class="buzzer-message">' . $languageService->translate('use_button') . '</div>';
+} else if (!$config['premium']['enabled']) {
+    echo ComponentUtility::renderButton('Start', $config['icons']['take_collage'], 'premium-button');
 } else {
     if ($config['picture']['enabled']) {
         echo ComponentUtility::renderButton('takePhoto', $config['icons']['take_picture'], 'takePic');
