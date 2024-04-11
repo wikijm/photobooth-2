@@ -416,7 +416,6 @@ const photoBooth = (function () {
         api.reset();
         api.closeGallery();
         api.closePremium();
-        
 
         remoteBuzzerClient.inProgress(photoStyle);
         api.takingPic = true;
@@ -849,6 +848,7 @@ const photoBooth = (function () {
 
     api.processPic = function (result) {
         startTime = new Date().getTime();
+        api.closePremium();
         loaderMessage.html(
             '<i class="' +
                 config.icons.spinner +
@@ -870,15 +870,19 @@ const photoBooth = (function () {
             };
             preloadImage.src = tempImageUrl;
         }
+        const data = {
+            file: result.file,
+            filter: imgFilter,
+            style: api.photoStyle
+        };
+        if (result.selectedImages) {
+            data.selectedImages = result.selectedImages;
+        }
 
         $.ajax({
             method: 'POST',
             url: config.foldersPublic.api + '/applyEffects.php',
-            data: {
-                file: result.file,
-                filter: imgFilter,
-                style: api.photoStyle
-            },
+            data,
             success: (data) => {
                 photoboothTools.console.log(api.photoStyle + ' processed', data);
                 endTime = new Date().getTime();

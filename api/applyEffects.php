@@ -29,6 +29,7 @@ try {
     }
 
     $file = $_POST['file'];
+    $selectedImages = $_POST['selectedImages'];
 
     if (!isset($_POST['style']) || !in_array($_POST['style'], ['photo', 'collage', 'custom', 'chroma'])) {
         throw new \Exception('Invalid or missing style parameter');
@@ -68,9 +69,18 @@ if (is_file(__DIR__ . '/../private/api/applyEffects.php')) {
 
 try {
     $filename_tmp = $config['foldersAbs']['tmp'] . DIRECTORY_SEPARATOR . $file;
-
+substr($filename_tmp, 0, -4);
     if ($isCollage) {
-        list($collageSrcImagePaths, $srcImages) = Collage::getCollageFiles($config['collage'], $filename_tmp, $file, $srcImages);
+        if($selectedImages) {
+            $collageSrcImagePaths = [];
+            foreach ($selectedImages as $selectedImage) {
+                $collageSrcImagePaths[] = $config['foldersAbs']['tmp'] . DIRECTORY_SEPARATOR . $selectedImage;
+            }
+            $srcImages = [$file];
+        } else {
+            list($collageSrcImagePaths, $srcImages) = Collage::getCollageFiles($config['collage'], $filename_tmp, $file, $srcImages);
+        }
+
 
         if (!Collage::createCollage($config, $collageSrcImagePaths, $filename_tmp, $image_filter)) {
             throw new \Exception('Error creating collage image.');

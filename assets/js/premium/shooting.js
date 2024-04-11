@@ -10,7 +10,7 @@ const renderImagesForSelection = (result) => {
     for (let i = 0; i < 9; i++) {
         const image = document.createElement('img');
         image.src = `/data/tmp/${result.file.split('.jpg')[0]}-${i}.jpg`;
-        image.id = `image${i}`;
+        image.id = `${result.file.split('.jpg')[0]}-${i}.jpg`;
         image.classList.add('select-image');
         imageContainer.appendChild(image);
     }
@@ -18,7 +18,7 @@ const renderImagesForSelection = (result) => {
 
 imageContainer.addEventListener('click', function (event) {
     if (event.target.classList.contains('select-image') && selectedImages.length < 4) {
-        const imageId = event.target.id;
+        const imageId = event.target.src.split('/').pop();
         const index = selectedImages.indexOf(imageId);
         if (index === -1) {
             selectedImages.push(imageId);
@@ -56,5 +56,8 @@ let intervalId = setInterval(() => {
 
 nextButton.addEventListener('click', function () {
     let params = new URLSearchParams(window.location.search);
+    const result = JSON.parse(localStorage.getItem('result'));
+    result.selectedImages = selectedImages;
     console.log('next step', params);
+    photoBooth.processPic(result);
 });
