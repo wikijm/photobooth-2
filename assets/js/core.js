@@ -69,7 +69,8 @@ const photoBooth = (function () {
         command,
         startTime,
         endTime,
-        totalTime;
+        totalTime,
+        isPremiumMode = false;
 
     api.takingPic = false;
     api.nextCollageNumber = 0;
@@ -87,9 +88,11 @@ const photoBooth = (function () {
         photoboothTools.console.log('Timeout for auto reload cleared.');
 
         if (!api.takingPic) {
-            photoboothTools.console.logDev('Timeout for auto reload set to' + timeToLive + ' milliseconds.');
+            photoboothTools.console.logDev('Timeout for auto reload set to ' + timeToLive + ' milliseconds.');
             timeOut = setTimeout(function () {
-                photoboothTools.reloadPage();
+                if (isPremiumMode) {
+                    photoboothTools.printImage(api.filename, () => photoboothTools.reloadPage());
+                }
             }, timeToLive);
         }
     };
@@ -403,7 +406,7 @@ const photoBooth = (function () {
         if (photoStyle === PhotoStyle.PREMIUM) {
             photoStyle = PhotoStyle.COLLAGE;
             config.collage.limit = 9;
-            config.collage.premium = true;
+            isPremiumMode = true;
             config.collage.layout = premiumConfig.collage;
             config.collage.printNumber = Number(premiumConfig.quantity);
         }
@@ -540,7 +543,7 @@ const photoBooth = (function () {
             style: api.photoStyle,
             canvasimg: videoSensor.get(0).toDataURL('image/jpeg')
         };
-        if (config.collage.premium) {
+        if (isPremiumMode) {
             data.premium = true;
         }
 
@@ -651,7 +654,7 @@ const photoBooth = (function () {
                                 loaderImage.css('background-image', 'none');
                                 loaderImage.attr('data-img', null);
                                 imageUrl = '';
-                                if (config.collage.premium) {
+                                if (isPremiumMode) {
                                     localStorage.setItem('result', JSON.stringify(result));
                                     api.showPremiumFlow();
                                     // api.selectImages(result);
@@ -873,7 +876,8 @@ const photoBooth = (function () {
         const data = {
             file: result.file,
             filter: imgFilter,
-            style: api.photoStyle
+            style: api.photoStyle,
+            layout: result.layout
         };
         if (result.selectedImages) {
             data.selectedImages = result.selectedImages;

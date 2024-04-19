@@ -29,7 +29,6 @@ imageContainer.addEventListener('click', function (event) {
             event.target.classList.remove('selected');
             event.target.classList.add('grayscale'); // dodaje se efekat sive boje
         }
-        console.log(selectedImages);
         renderCollage();
     }
 });
@@ -44,7 +43,6 @@ const renderCollage = () => {
 };
 
 let intervalId = setInterval(() => {
-    console.log('shooting.js');
     const result = JSON.parse(localStorage.getItem('result'));
     console.log('result', result);
 
@@ -52,12 +50,13 @@ let intervalId = setInterval(() => {
         clearInterval(intervalId);
         renderImagesForSelection(result);
     }
-}, 3000);
+}, 2000);
 
 nextButton.addEventListener('click', function () {
     let params = new URLSearchParams(window.location.search);
     const result = JSON.parse(localStorage.getItem('result'));
     result.selectedImages = selectedImages;
+    result.layout = params.get('collage');
     console.log('next step', params);
     photoBooth.processPic(result);
 });

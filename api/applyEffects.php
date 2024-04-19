@@ -29,7 +29,8 @@ try {
     }
 
     $file = $_POST['file'];
-    $selectedImages = $_POST['selectedImages'];
+    $selectedImages = $_POST['selectedImages'] ?? null;
+    $layout = $_POST['layout'] ?? null;
 
     if (!isset($_POST['style']) || !in_array($_POST['style'], ['photo', 'collage', 'custom', 'chroma'])) {
         throw new \Exception('Invalid or missing style parameter');
@@ -81,7 +82,9 @@ substr($filename_tmp, 0, -4);
             list($collageSrcImagePaths, $srcImages) = Collage::getCollageFiles($config['collage'], $filename_tmp, $file, $srcImages);
         }
 
-
+        if ($layout) {
+            $config['collage']['layout'] = $layout;
+        }
         if (!Collage::createCollage($config, $collageSrcImagePaths, $filename_tmp, $image_filter)) {
             throw new \Exception('Error creating collage image.');
         }

@@ -213,7 +213,7 @@ const photoboothTools = (function () {
     };
 
     api.reloadPage = function () {
-        window.location.reload();
+        window.location.href = window.location.origin;
     };
 
     api.getRequest = function (url) {

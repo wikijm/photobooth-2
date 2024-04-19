@@ -144,6 +144,9 @@ class Collage
         //Create Collage based on 300dpi 4x6in - Scale collages with the height
         $collage_height = intval(4 * $c->collageResolution);
         $collage_width = intval($collage_height * 1.5);
+        if ($c->collageLayout == '1x4') {
+            $collage_height = $collage_height / 2;
+        }
 
         $my_collage = imagecreatetruecolor($collage_width, $collage_height);
 
@@ -177,6 +180,40 @@ class Collage
         $imageHandler->addPictureBgColor = $c->collageBackgroundColor;
 
         switch ($c->collageLayout) {
+            case '1x4':
+                if ($landscape) {
+                    $rotate_after_creation = true;
+                }
+
+                $widthNew = $collage_height  * 0.60 ;
+                $heightNew = $widthNew * 1.5;
+
+                $ratioY = 0.045;
+
+                $img1RatioX = 0.02531;
+                $img2RatioX = 0.24080;
+                $img3RatioX = 0.45630;
+                $img4RatioX = 0.67178;
+
+
+                $pictureOptions = [
+                    [$collage_width * $img1RatioX, $collage_height * $ratioY, $widthNew, $heightNew, 90],
+                    [$collage_width * $img2RatioX, $collage_height * $ratioY, $widthNew, $heightNew, 90],
+                    [$collage_width * $img3RatioX, $collage_height * $ratioY, $widthNew, $heightNew, 90],
+                    [$collage_width * $img4RatioX, $collage_height * $ratioY, $widthNew, $heightNew, 90],
+                ];
+
+                for ($i = 0; $i < 4; $i++) {
+                    $tmpImg = $imageHandler->createFromImage($editImages[$i]);
+                    if (!$tmpImg instanceof \GdImage) {
+                        throw new \Exception('Failed to create tmp image resource.');
+                    }
+                    $imageHandler->setAddPictureOptions((int)$pictureOptions[$i][0], (int) $pictureOptions[$i][1], (int)$pictureOptions[$i][2], (int)$pictureOptions[$i][3], (int)$pictureOptions[$i][4]);
+                    $imageHandler->addPicture($tmpImg, $my_collage);
+
+                    imagedestroy($tmpImg);
+                }
+                break;
             // old 2x2 are now named 2+2 as 2x means images are duplicated
             case '2x2':
             case '2+2':

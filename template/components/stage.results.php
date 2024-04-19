@@ -6,11 +6,11 @@ echo '<div class="stage stage--result rotarygroup" data-stage="result">';
 echo '<div class="stage-inner">';
 echo '<div class="buttonbar buttonbar--bottom">';
 
-if ($config['button']['homescreen']) {
+if ($config['button']['homescreen'] && $config['premium']['enabled']) {
     echo ComponentUtility::renderButton('home', $config['icons']['home'], 'homebtn');
 }
 
-if ($config['ui']['result_buttons']) {
+if ($config['ui']['result_buttons'] && $config['premium']['enabled']) {
     if (!$config['button']['force_buzzer']) {
         if ($config['picture']['enabled']) {
             echo ComponentUtility::renderButton('newPhoto', $config['icons']['take_picture'], 'newpic');
@@ -36,16 +36,19 @@ if ($config['ui']['result_buttons']) {
         echo ComponentUtility::renderButton('mail', $config['icons']['mail'], 'mailbtn');
     }
 }
-
-if ($config['print']['from_result']) {
-    echo ComponentUtility::renderButton('print', $config['icons']['print'], 'printbtn');
-}
 if ($config['filters']['enabled']) {
     echo ComponentUtility::renderButton('selectFilter', $config['icons']['filter'], 'imageFilter');
 }
-if ($config['picture']['allow_delete']) {
-    echo ComponentUtility::renderButton('delete', $config['icons']['delete'], 'deletebtn');
+if ($config['print']['from_result']) {
+    echo ComponentUtility::renderButton('print', $config['icons']['print'], 'printbtn');
 }
+
+if ($config['premium']['enabled']) {
+    if ($config['picture']['allow_delete']) {
+        echo ComponentUtility::renderButton('delete', $config['icons']['delete'], 'deletebtn');
+    }
+}
+
 
 echo '</div>';
 echo '</div>';
