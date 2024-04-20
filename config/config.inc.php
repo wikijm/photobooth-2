@@ -12,6 +12,7 @@ $config['ui']['language'] = 'en';
 $config['ui']['folders_lang'] = 'resources/lang';
 $config['adminpanel']['view'] = 'basic';
 $config['adminpanel']['experimental_settings'] = false;
+$config['adminpanel']['premium'] = true;
 $config['dev']['loglevel'] = '1';
 $config['dev']['demo_images'] = false;
 $config['start_screen']['title'] = '';
@@ -56,9 +57,6 @@ $config['event']['symbol'] = 'fa-heart-o';
 $config['event']['textRight'] = '';
 $config['button']['force_buzzer'] = false;
 
-
-// PREMIUM mode (mode with payment)
-$config['premium']['enabled'] = true;
 
 // P I C T U R E S
 $config['picture']['enabled'] = true;

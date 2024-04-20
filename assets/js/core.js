@@ -91,7 +91,11 @@ const photoBooth = (function () {
             photoboothTools.console.logDev('Timeout for auto reload set to ' + timeToLive + ' milliseconds.');
             timeOut = setTimeout(function () {
                 if (isPremiumMode) {
-                    photoboothTools.printImage(api.filename, () => photoboothTools.reloadPage());
+                    const result = JSON.parse(sessionStorage.getItem('result'));
+
+                    photoboothTools.printImage({ filename: api.filename, copies: result.copies }, () =>
+                        photoboothTools.reloadPage()
+                    );
                 }
             }, timeToLive);
         }
@@ -655,9 +659,8 @@ const photoBooth = (function () {
                                 loaderImage.attr('data-img', null);
                                 imageUrl = '';
                                 if (isPremiumMode) {
-                                    localStorage.setItem('result', JSON.stringify(result));
+                                    sessionStorage.setItem('result', JSON.stringify(result));
                                     api.showPremiumFlow();
-                                    // api.selectImages(result);
                                 } else {
                                     api.processPic(result);
                                 }
@@ -1112,7 +1115,7 @@ const photoBooth = (function () {
 
         if (config.print.auto && config.filters.enabled === false) {
             setTimeout(function () {
-                photoboothTools.printImage(filename, () => {
+                photoboothTools.printImage({ filename }, () => {
                     remoteBuzzerClient.inProgress(false);
                 });
             }, config.print.auto_delay);
@@ -1121,7 +1124,12 @@ const photoBooth = (function () {
         buttonPrint.off('click').on('click', (event) => {
             event.preventDefault();
             event.stopPropagation();
-            photoboothTools.printImage(filename, () => {
+            let copies = 1;
+            if (isPremiumMode) {
+                const result = JSON.parse(sessionStorage.getItem('result'));
+                copies = result.copies;
+            }
+            photoboothTools.printImage({ filename, copies }, () => {
                 remoteBuzzerClient.inProgress(false);
                 buttonPrint.trigger('blur');
             });
@@ -1288,9 +1296,9 @@ const photoBooth = (function () {
     };
 
     api.showPremiumFlow = function () {
-        if (config.premium.scrollbar) {
-            premium.addClass('scrollbar');
-        }
+        // if (config.premium.scrollbar) {
+        //     premium.addClass('scrollbar');
+        // }
 
         premium.addClass('premium--open');
 
@@ -1379,7 +1387,8 @@ const photoBooth = (function () {
         $(this).addClass('sidenav-list-item--active');
 
         imgFilter = $(this).data('filter');
-        const result = { file: resultPage.attr('data-img') };
+        const resultData = JSON.parse(sessionStorage.getItem('result'));
+        const result = { file: resultPage.attr('data-img'), ...resultData };
 
         photoboothTools.console.logDev('Applying filter: ' + imgFilter, result);
 

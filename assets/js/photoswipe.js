@@ -154,9 +154,9 @@ function initPhotoSwipeFromDOM(gallerySelector) {
                         if (photoboothTools.isPrinting) {
                             photoboothTools.console.log('Printing already in progress!');
                         } else {
-                            const img = pswp.currSlide.data.src.split('\\').pop().split('/').pop();
+                            const filename = pswp.currSlide.data.src.split('\\').pop().split('/').pop();
 
-                            photoboothTools.printImage(img, () => {
+                            photoboothTools.printImage({ filename }, () => {
                                 if (typeof remoteBuzzerClient !== 'undefined') {
                                     remoteBuzzerClient.inProgress(false);
                                 }

@@ -51,7 +51,9 @@ class Collage
         if (!is_array($srcImagePaths)) {
             throw new \Exception('Source image paths are not an array.');
         }
-
+        if ($config['adminpanel']['premium'] && $config['collage']['layout'] === '2x3') {
+            $c->collageLimit = 6;
+        }
         // validate that there is the correct amount of images
         if (($c->collagePlaceholder && count($srcImagePaths) !== $c->collageLimit - 1) || (!$c->collagePlaceholder && count($srcImagePaths) !== $c->collageLimit)) {
             throw new \Exception('Invalid number of images.');
@@ -658,12 +660,19 @@ class Collage
                 }
 
                 for ($i = 0; $i < 3; $i++) {
-                    $tmpImg = $imageHandler->createFromImage($editImages[$i]);
-                    if (!$tmpImg instanceof \GdImage) {
+                    if($config['adminpanel']['premium']) {
+                        $tmpImg1 = $imageHandler->createFromImage($editImages[$i * 2 +1]);
+                        $tmpImg2 = $imageHandler->createFromImage($editImages[$i * 2]);
+                    } else {
+                        $tmpImg1 = $imageHandler->createFromImage($editImages[$i]); 
+                        $tmpImg2 = $imageHandler->createFromImage($editImages[$i]); 
+                    }
+
+                    if (!$tmpImg1 instanceof \GdImage) {
                         throw new \Exception('Failed to create tmp image resource.');
                     }
                     $imageHandler->setAddPictureOptions((int)$pictureOptions[$i][0], (int)$pictureOptions[$i][1], (int)$pictureOptions[$i][2], (int)$pictureOptions[$i][3], (int) $pictureOptions[$i][4]);
-                    $imageHandler->addPicture($tmpImg, $my_collage);
+                    $imageHandler->addPicture($tmpImg1, $my_collage);
 
                     $imageHandler->setAddPictureOptions(
                         (int)$pictureOptions[$i + 3][0],
@@ -672,8 +681,8 @@ class Collage
                         (int)$pictureOptions[$i + 3][3],
                         (int) $pictureOptions[$i + 3][4]
                     );
-                    $imageHandler->addPicture($tmpImg, $my_collage);
-                    imagedestroy($tmpImg);
+                    $imageHandler->addPicture($tmpImg2, $my_collage);
+                    imagedestroy($tmpImg2);
                 }
                 if ($c->collageLayout === '2x3') {
                     $imageHandler->dashedLineColor = (string)imagecolorallocate($my_collage, (int)$dashed_r, (int)$dashed_g, (int)$dashed_b);

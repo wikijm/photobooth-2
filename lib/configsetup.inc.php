@@ -92,6 +92,12 @@ $configsetup = [
             ],
             'value' => $config['ui']['language'],
         ],
+        'adminpanel_premium' => [
+            'view' => 'basic',
+            'type' => 'checkbox',
+            'name' => 'adminpanel[premium]',
+            'value' => $config['adminpanel']['premium'],
+        ],
         'ui_folders_lang' => [
             'view' => 'expert',
             'type' => 'input',

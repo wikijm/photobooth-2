@@ -2,8 +2,13 @@ console.log('shooting');
 
 let nextButton = document.querySelector('.next-button');
 const imageContainer = document.querySelector('.image-container');
-const collageContainer = document.querySelector('.collage-container');
 let selectedImages = [];
+let params = new URLSearchParams(window.location.search);
+const layout = params.get('collage');
+const copies = Number(params.get('quantity'));
+const collageContainer = document.querySelector(
+    `${layout === '1x4' ? '.collage-container-1x4' : '.collage-container-2x3'}`
+);
 
 const renderImagesForSelection = (result) => {
     console.log('render', result);
@@ -17,7 +22,8 @@ const renderImagesForSelection = (result) => {
 };
 
 imageContainer.addEventListener('click', function (event) {
-    if (event.target.classList.contains('select-image') && selectedImages.length < 4) {
+    const selectionCount = layout === '1x4' ? 4 : 6;
+    if (event.target.classList.contains('select-image') && selectedImages.length < selectionCount) {
         const imageId = event.target.src.split('/').pop();
         const index = selectedImages.indexOf(imageId);
         if (index === -1) {
@@ -43,7 +49,7 @@ const renderCollage = () => {
 };
 
 let intervalId = setInterval(() => {
-    const result = JSON.parse(localStorage.getItem('result'));
+    const result = JSON.parse(sessionStorage.getItem('result'));
     console.log('result', result);
 
     if (result) {
@@ -53,10 +59,11 @@ let intervalId = setInterval(() => {
 }, 2000);
 
 nextButton.addEventListener('click', function () {
-    let params = new URLSearchParams(window.location.search);
-    const result = JSON.parse(localStorage.getItem('result'));
+    const result = JSON.parse(sessionStorage.getItem('result'));
     result.selectedImages = selectedImages;
-    result.layout = params.get('collage');
+    result.layout = layout;
+    const newResultObj = { ...result, selectedImages, layout, copies };
+    sessionStorage.setItem('result', JSON.stringify(newResultObj));
     console.log('next step', params);
     photoBooth.processPic(result);
 });

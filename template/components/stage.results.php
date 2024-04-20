@@ -6,11 +6,11 @@ echo '<div class="stage stage--result rotarygroup" data-stage="result">';
 echo '<div class="stage-inner">';
 echo '<div class="buttonbar buttonbar--bottom">';
 
-if ($config['button']['homescreen'] && $config['premium']['enabled']) {
+if ($config['button']['homescreen'] && !$config['adminpanel']['premium']) {
     echo ComponentUtility::renderButton('home', $config['icons']['home'], 'homebtn');
 }
 
-if ($config['ui']['result_buttons'] && $config['premium']['enabled']) {
+if ($config['ui']['result_buttons'] && !$config['adminpanel']['premium']) {
     if (!$config['button']['force_buzzer']) {
         if ($config['picture']['enabled']) {
             echo ComponentUtility::renderButton('newPhoto', $config['icons']['take_picture'], 'newpic');
@@ -43,7 +43,7 @@ if ($config['print']['from_result']) {
     echo ComponentUtility::renderButton('print', $config['icons']['print'], 'printbtn');
 }
 
-if ($config['premium']['enabled']) {
+if (!$config['adminpanel']['premium']) {
     if ($config['picture']['allow_delete']) {
         echo ComponentUtility::renderButton('delete', $config['icons']['delete'], 'deletebtn');
     }

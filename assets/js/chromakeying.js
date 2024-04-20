@@ -329,7 +329,7 @@ $(function () {
                     if (!resp.success) {
                         return;
                     }
-                    photoboothTools.printImage(resp.filename, () => {
+                    photoboothTools.printImage({ filename: resp.filename }, () => {
                         $('[data-command="print-btn"]').trigger('blur');
                     });
                 });

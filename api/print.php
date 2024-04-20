@@ -28,6 +28,7 @@ try {
     $imageHandler->debugLevel = $config['dev']['loglevel'];
     $random = $imageHandler->createNewFilename('random');
     $filename = $_GET['filename'];
+    $copies = isset($_GET['copies']) ? intval($_GET['copies']) : 1;
     $uniquename = substr($filename, 0, -4) . '-' . $random;
     $filename_source = $config['foldersAbs']['images'] . DIRECTORY_SEPARATOR . $filename;
     $filename_print = $config['foldersAbs']['print'] . DIRECTORY_SEPARATOR . $uniquename;
@@ -150,7 +151,9 @@ $status = 'ok';
 $cmd = sprintf($config['print']['cmd'], $filename_print);
 $cmd .= ' 2>&1'; //Redirect stderr to stdout, otherwise error messages get lost.
 
-exec($cmd, $output, $returnValue);
+for($i=0; $i<$copies; $i++) {
+    exec($cmd, $output, $returnValue);
+}
 
 $printManager->addToPrintDb($filename, $uniquename);
 

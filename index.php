@@ -67,7 +67,8 @@ if ($config['gallery']['enabled']) {
     include PathUtility::getAbsolutePath('template/components/gallery.php');
 }
 
-if (!$config['premium']['enabled']) {
+
+if ($config['adminpanel']['premium']) {
     include PathUtility::getAbsolutePath('template/components/premium.php');
 }
 

@@ -186,33 +186,53 @@ body {
 }
 
 .select-image {
-  //set width and height to fit into grid
   width: 150px;
   height: 150px;
 }
 
-.collage-container {
+.collage-container-1x4 {
   border: 1px solid #ccc;
   padding: 10px;
-  margin-top: 10px;
   display: grid;
-  grid-template-columns: 100px; /* jedna kolona */
-  grid-template-rows: repeat(4, 100px); /* četiri reda */
+  grid-template-columns: 140px;
+  grid-template-rows: repeat(4, 100px);
+  justify-content: center;
+  background-color: black;
+}
+
+.collage-container-2x3 {
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 160px);
+  grid-template-rows: repeat(3, 100px);
   gap: 5px;
-  justify-content: center; /* centralizuje slike */
-  align-items: center; /* centralizuje slike */
-  background-color: white; /* bela pozadina */
+  justify-content: center;
+  align-items: center;
+  background-color: black;
 }
-.collage-container .placeholder {
-  border: 1px solid gray; /* Beli okvir oko svake slike */
-  background-color: white; /* Bela pozadina unutar okvira */
+
+.collage-container-1x4 .placeholder-1x4 {
+  border: 1px solid gray;
 }
-.collage-container img {
-  max-width: 100px; /* Maksimalna širina */
-  max-height: 100px; /* Maksimalna visina */
-  border: 1px solid white; /* Beli okvir oko slike */
-  background-color: white; /* Bela pozadina unutar okvira */
+.collage-container-1x4 img {
+  max-width: 140px;
+  max-height: 100px;
 }
+
+.collage-container-2x3 .placeholder-2x3 {
+  border: 1px solid gray;
+  max-width: 155px;
+  max-height: 150px;
+}
+
+.collage-container-2x3 img {
+  max-width: 150px;
+  max-height: 150px;
+  border: 1px solid white;
+  background-color: white;
+}
+
 .selected {
   filter: grayscale(100%);
 }

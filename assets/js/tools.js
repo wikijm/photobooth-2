@@ -260,8 +260,8 @@ const photoboothTools = (function () {
         }, to);
     };
 
-    api.printImage = function (imageSrc, cb) {
-        if (api.isVideoFile(imageSrc)) {
+    api.printImage = function ({ filename, copies = 1 }, cb) {
+        if (api.isVideoFile(filename)) {
             api.console.log('ERROR: An error occurred: attempt to print non printable file.');
             api.overlay.showError(api.getTranslation('no_printing'));
             setTimeout(() => api.overlay.close(), notificationTimeout);
@@ -277,7 +277,8 @@ const photoboothTools = (function () {
                 method: 'GET',
                 url: config.foldersPublic.api + '/print.php',
                 data: {
-                    filename: imageSrc
+                    filename,
+                    copies
                 },
                 success: (data) => {
                     api.console.log('Picture processed: ', data);

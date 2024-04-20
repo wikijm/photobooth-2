@@ -178,6 +178,7 @@
   "gallery_no_image": "Galerija nema slika!",
   "general": "Općenito",
   "general:adminpanel_experimental_settings": "Prikaži eksperimentalne postavke",
+  "general:adminpanel_premium": "Ukljuci Premium mod (mod naplate)",
   "general:adminpanel_view": "Admin opcije",
   "general:database_enabled": "Koristi bazu podataka za slike",
   "general:database_file": "Naziv datoteke baze podataka",
