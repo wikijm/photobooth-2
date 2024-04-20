@@ -29,11 +29,11 @@ imageContainer.addEventListener('click', function (event) {
         if (index === -1) {
             selectedImages.push(imageId);
             event.target.classList.add('selected');
-            event.target.classList.remove('grayscale'); // uklanja se efekat sive boje
+            event.target.classList.remove('grayscale');
         } else {
             selectedImages.splice(index, 1);
             event.target.classList.remove('selected');
-            event.target.classList.add('grayscale'); // dodaje se efekat sive boje
+            event.target.classList.add('grayscale');
         }
         renderCollage();
     }

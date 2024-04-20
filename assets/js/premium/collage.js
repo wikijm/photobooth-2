@@ -1,4 +1,3 @@
-// collage.js
 document.addEventListener('DOMContentLoaded', function () {
     console.log('collage.js');
     let collageOptions = document.querySelectorAll('.collage-option');
@@ -6,19 +5,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     collageOptions.forEach(function (button) {
         button.addEventListener('click', function () {
-            // Označimo izabranu opciju
             collageOptions.forEach(function (btn) {
                 btn.classList.remove('selected');
             });
             button.classList.add('selected');
 
-            // Omogućimo 'Next' dugme
             nextButton.disabled = false;
         });
     });
 
     nextButton.addEventListener('click', function () {
-        // Preusmerimo korisnika na sledeći korak
         let selectedOption = document.querySelector('.collage-option.selected');
         if (selectedOption) {
             let collage = selectedOption.getAttribute('data-value');
@@ -40,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    // Replace the content of premium-body with the loaded content
                     document.querySelector('.premium-body').innerHTML = xhr.responseText;
                     // Load quantity.js dynamically
                     let script = document.createElement('script');

@@ -19,14 +19,12 @@ document.querySelector('.decrease').addEventListener('click', function () {
 });
 
 nextButton.addEventListener('click', function () {
-    // Preusmerimo korisnika na sledeći korak
     let params = new URLSearchParams(window.location.search);
     let queryParams =
         '?step=shooting&collage=' + params.get('collage') + '&price=' + params.get('price') + '&quantity=' + quantity;
     let newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + queryParams;
     window.history.pushState({ path: newUrl }, '', newUrl);
 
-    // Load the content of the new step via AJAX
     loadStepContent('shooting', queryParams);
 });
 
@@ -35,9 +33,7 @@ function loadStepContent(step, queryParams) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-                // Replace the content of premium-body with the loaded content
                 document.querySelector('.premium-body').innerHTML = xhr.responseText;
-                // Load quantity.js dynamically
                 let script = document.createElement('script');
                 script.src = '/resources/js/premium/shooting.js';
                 script.onload = function () {
