@@ -282,7 +282,6 @@ const photoboothTools = (function () {
                 },
                 success: (data) => {
                     api.console.log('Picture processed: ', data);
-                    if()
 
                     if (data.status == 'locking') {
                         api.overlay.showWarning(
