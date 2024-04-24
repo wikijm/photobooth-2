@@ -1,6 +1,6 @@
 console.log('quantity.js');
 let quantity = 2;
-let pricePerTwo = parseInt(document.querySelector('.price').textContent.split('$')[1]);
+let pricePerTwo = parseInt(document.querySelector('.price').textContent.split('$')[1], 10);
 let nextButton = document.querySelector('.next-button');
 
 document.querySelector('.increase').addEventListener('click', function () {
