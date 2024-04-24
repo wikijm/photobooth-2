@@ -65,5 +65,5 @@ nextButton.addEventListener('click', function () {
     const newResultObj = { ...result, selectedImages, layout, copies };
     sessionStorage.setItem('result', JSON.stringify(newResultObj));
     console.log('next step', params);
-    // photoBooth.processPic(result);
+    photoBooth.processPic(result);
 });

@@ -46,7 +46,7 @@ function loadStepContent(step, queryParams) {
                 for (let param of params) {
                     premiumData[param[0]] = param[1];
                 }
-                // photoBooth.thrill('premium', undefined, premiumData);
+                photoBooth.thrill('premium', undefined, premiumData);
             } else {
                 // Handle error
                 console.error('Failed to load step content');
