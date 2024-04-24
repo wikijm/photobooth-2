@@ -1132,6 +1132,9 @@ const photoBooth = (function () {
             photoboothTools.printImage({ filename, copies }, () => {
                 remoteBuzzerClient.inProgress(false);
                 buttonPrint.trigger('blur');
+                if (isPremiumMode) {
+                    photoboothTools.reloadPage();
+                }
             });
         });
 
