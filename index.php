@@ -59,7 +59,13 @@ include PathUtility::getAbsolutePath('template/components/main.head.php');
 <?php endif; ?>
 <?php
 
-include PathUtility::getAbsolutePath('template/components/stage.start.php');
+if ($config['adminpanel']['premium']) {
+    include PathUtility::getAbsolutePath('template/components/premium.start.php');
+    include PathUtility::getAbsolutePath('template/components/premium.php');
+} else {
+    include PathUtility::getAbsolutePath('template/components/stage.start.php');
+}
+
 include PathUtility::getAbsolutePath('template/components/stage.loader.php');
 include PathUtility::getAbsolutePath('template/components/stage.results.php');
 
@@ -68,9 +74,7 @@ if ($config['gallery']['enabled']) {
 }
 
 
-if ($config['adminpanel']['premium']) {
-    include PathUtility::getAbsolutePath('template/components/premium.php');
-}
+
 
 if ($config['filters']['enabled']) {
     include PathUtility::getAbsolutePath('template/components/filter.php');

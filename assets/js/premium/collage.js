@@ -1,21 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log('collage.js');
-    let collageOptions = document.querySelectorAll('.collage-option');
-    let nextButton = document.getElementById('next-button');
+    let fourCutButton = document.getElementById('four-cut-button');
+    let sixCutButton = document.getElementById('six-cut-button');
 
-    collageOptions.forEach(function (button) {
-        button.addEventListener('click', function () {
-            collageOptions.forEach(function (btn) {
-                btn.classList.remove('selected');
-            });
-            button.classList.add('selected');
-
-            nextButton.disabled = false;
-        });
+    fourCutButton.addEventListener('click', function () {
+        selectOption('1x4');
+    });
+    sixCutButton.addEventListener('click', function () {
+        selectOption('2x3');
     });
 
-    nextButton.addEventListener('click', function () {
-        let selectedOption = document.querySelector('.collage-option.selected');
+    function selectOption(selectedOption) {
         if (selectedOption) {
             let collage = selectedOption.getAttribute('data-value');
             let price = selectedOption.getAttribute('data-price');
@@ -28,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Load the content of the new step via AJAX
             loadStepContent('quantity', queryParams);
         }
-    });
+    }
 
     // Function to load step content via AJAX
     function loadStepContent(step, queryParams) {

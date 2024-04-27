@@ -1,6 +1,42 @@
 /**
  * Premium mode
  */
+
+// premium.start.php
+.premium-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #9daf7f;
+  width: 100%;
+  height: 100%;
+
+  .premium-logo {
+    width: 70rem;
+  }
+  .premium-heading {
+    font-size: 4rem;
+    color: #fff;
+  }
+  .premium-button-start {
+    width: 20rem;
+    height: 7rem;
+    background-color: #f2e4db;
+    border-radius: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+  }
+
+  .premium-button-start-text {
+    color: #9daf7f;
+    font-size: 4rem;
+    font-weight: 700;
+  }
+}
+
 .premium {
   background-color: #c8c8c8;
   position: fixed;
@@ -59,7 +95,6 @@
 
       .premium-body {
         overflow-y: scroll;
-        padding: 2rem;
         height: auto;
         width: auto;
         flex-grow: 1;
@@ -78,6 +113,20 @@
   display: flex;
   justify-content: space-around;
   margin-bottom: 20px;
+}
+
+.premium-collage-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+.four-cut-select-button {
+  position: absolute;
+}
+.six-cut-select-button {
+  position: absolute;
 }
 
 .collage-option {
