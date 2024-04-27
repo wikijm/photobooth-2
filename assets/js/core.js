@@ -61,6 +61,8 @@ const photoBooth = (function () {
         continuousCollageTime = config.collage.continuous_time * 1000,
         retryTimeout = config.picture.retry_timeout * 1000,
         notificationTimeout = config.ui.notification_timeout * 1000;
+        
+    sessionStorage.removeItem('result'); 
 
     let timeOut,
         chromaFile = '',
@@ -93,9 +95,10 @@ const photoBooth = (function () {
                 if (isPremiumMode) {
                     const result = JSON.parse(sessionStorage.getItem('result'));
 
-                    photoboothTools.printImage({ filename: api.filename, copies: result.copies }, () =>
-                        photoboothTools.reloadPage()
-                    );
+                    photoboothTools.printImage({ filename: api.filename, copies: result.copies }, () => {
+                        photoboothTools.reloadPage();
+                        sessionStorage.removeItem('result');
+                    });
                 }
             }, timeToLive);
         }
@@ -561,7 +564,6 @@ const photoBooth = (function () {
         }
 
         loader.css('--stage-background', config.colors.background_countdown);
-        console.log('radi', retry);
         api.callTakePicApi(data, retry);
     };
 

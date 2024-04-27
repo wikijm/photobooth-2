@@ -50,7 +50,6 @@ const renderCollage = () => {
 
 let intervalId = setInterval(() => {
     const result = JSON.parse(sessionStorage.getItem('result'));
-    console.log('result', result);
 
     if (result) {
         clearInterval(intervalId);
