@@ -1,3 +1,8 @@
+const PRICE = {
+    '1x4': 4.5,
+    '2x3': 5
+};
+
 document.addEventListener('DOMContentLoaded', function () {
     console.log('collage.js');
     let fourCutButton = document.getElementById('four-cut-button');
@@ -12,10 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function selectOption(selectedOption) {
         if (selectedOption) {
-            let collage = selectedOption.getAttribute('data-value');
-            let price = selectedOption.getAttribute('data-price');
-
-            let queryParams = '?step=quantity&collage=' + collage + '&price=' + price;
+            let queryParams = '?step=quantity&collage=' + selectedOption + '&price=' + PRICE[selectedOption];
             let newUrl =
                 window.location.protocol + '//' + window.location.host + window.location.pathname + queryParams;
             window.history.pushState({ path: newUrl }, '', newUrl);

@@ -1,18 +1,21 @@
+<img class="premium-quantity-img" src="/resources/img/premium/background.png">
+
 <?php
 $pricePerTwo = isset($_GET['price']) ? $_GET['price'] : 0;
 ?>
 
-<h1 class="heading">Number of Prints</h1>
+<div class="quantity-screen-wrapper">
+    <h1 class="quantity-heading">Number of Photos</h1>
 
+    <div class="quantity-box-wrapper">
+        <div class="quantity-selector">
+            <button id="decrease" class="change-value">-</button>
+            <span class="quantity"><p class="quantity-value" id="quantity-value">2</p></span>
+            <button id="increase" class="change-value">+</button>
+        </div>
+        <div class="price"><p id="price-value"><?php echo $pricePerTwo; ?></p></div>
 
-<div>
-    <div class="quantity-selector">
-        <button class="decrease">-</button>
-        <span class="quantity">2</span>
-        <button class="increase">+</button>
     </div>
-
-    <p class="price">Price: $<?php echo $pricePerTwo; ?></p>
+    <button class="next-button">NEXT</button>  
 </div>
 
-<button class="next-button">Next</button>

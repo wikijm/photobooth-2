@@ -1,24 +1,28 @@
 console.log('quantity.js');
+const PRICE = {
+    '1x4': 4.5,
+    '2x3': 5
+};
+let params = new URLSearchParams(window.location.search);
 let quantity = 2;
-let pricePerTwo = parseInt(document.querySelector('.price').textContent.split('$')[1], 10);
+let pricePerTwo = PRICE[params.get('collage')];
 let nextButton = document.querySelector('.next-button');
 
-document.querySelector('.increase').addEventListener('click', function () {
+document.querySelector('#increase').addEventListener('click', function () {
     quantity += 2;
-    document.querySelector('.quantity').textContent = quantity;
-    document.querySelector('.price').textContent = 'Price: $' + (quantity / 2) * pricePerTwo;
+    document.querySelector('#quantity-value').textContent = quantity;
+    document.querySelector('#price-value').textContent = (quantity / 2) * pricePerTwo;
 });
 
-document.querySelector('.decrease').addEventListener('click', function () {
+document.querySelector('#decrease').addEventListener('click', function () {
     if (quantity > 2) {
         quantity -= 2;
-        document.querySelector('.quantity').textContent = quantity;
-        document.querySelector('.price').textContent = 'Price: $' + (quantity / 2) * pricePerTwo;
+        document.querySelector('#quantity-value').textContent = quantity;
+        document.querySelector('#price-value').textContent = (quantity / 2) * pricePerTwo;
     }
 });
 
 nextButton.addEventListener('click', function () {
-    let params = new URLSearchParams(window.location.search);
     let queryParams =
         '?step=shooting&collage=' + params.get('collage') + '&price=' + params.get('price') + '&quantity=' + quantity;
     let newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + queryParams;
