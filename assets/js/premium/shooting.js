@@ -1,3 +1,4 @@
+/* globals photoBooth */
 console.log('shooting');
 
 let nextButton = document.querySelector('.next-button');

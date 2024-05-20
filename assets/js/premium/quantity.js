@@ -1,3 +1,4 @@
+/* globals photoBooth */
 console.log('quantity.js');
 const PRICE = {
     '1x4': 4.5,
