@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GO2RTC_VERSIONS=("1.9.2" "1.9.3" "1.9.4" "1.9.5" "1.9.6")
+GO2RTC_VERSIONS=("1.9.2" "1.9.4" "1.9.6")
 GO2RTC_VERSION="1.9.6"
 YAML_STREAM="photobooth: exec:gphoto2 --capture-movie --stdout#killsignal=2"
 CAPTURE_CMD="gphoto2"
@@ -308,20 +308,27 @@ echo "7 Do nothing"
 info ""
 ask_yes_no "Please enter your choice" "6"
 info ""
+
+if [[ "$GO2RTC_VERSION" == "1.9.2" ]]; then
+    CODEC_FORMAT="--codec mjpeg"
+else
+    CODEC_FORMAT="--libav-format h264"
+fi
+
 if [[ $REPLY =~ ^[1]$ ]]; then
     info "### We will install a service to set up a mjpeg stream for gphoto2."
     test_command "gphoto2 --capture-movie=5s"
 elif [[ $REPLY =~ ^[2]$ ]]; then
     info "### We will install a service to set up a mjpeg stream for rpicam-apps."
-    test_command "rpicam-vid -t 5000 --codec mjpeg -o test.mjpeg"
-    YAML_STREAM="photobooth: exec:rpicam-vid -t 0 --codec mjpeg --width 2304 --height 1296 -o -#killsignal=2"
+    test_command "rpicam-vid -t 5000 $CODEC_FORMAT -o test.mjpeg"
+    YAML_STREAM="photobooth: exec:rpicam-vid -t 0 $CODEC_FORMAT --width 2304 --height 1296 -o -#killsignal=2"
     CAPTURE_CMD="rpicam-still"
     CAPTURE_ARGS="-n -q 100 -o \$1"
     NOTE="don't forget to add -o %s."
 elif [[ $REPLY =~ ^[3]$ ]]; then
     info "### We will install a service to set up a mjpeg stream for libcamera-apps."
-    test_command "libcamera-vid -t 5000 --codec mjpeg -o test.mjpeg"
-    YAML_STREAM="photobooth: exec:libcamera-vid -t 0 --codec mjpeg --width 2304 --height 1296 -o -#killsignal=2"
+    test_command "libcamera-vid -t 5000 $CODEC_FORMAT -o test.mjpeg"
+    YAML_STREAM="photobooth: exec:libcamera-vid -t 0 $CODEC_FORMAT --width 2304 --height 1296 -o -#killsignal=2"
     CAPTURE_CMD="libcamera-still"
     CAPTURE_ARGS="-n -q 100 -o \$1"
     NOTE="don't forget to add -o %s."
@@ -336,6 +343,11 @@ elif [[ $REPLY =~ ^[5]$ ]]; then
     UPDATE_ONLY=true
     ask_version
     install_go2rtc
+    if [[ "$GO2RTC_VERSION" == "1.9.2" ]]; then
+        sed -i 's/--libav-format h264/--codec mjpeg/g' /etc/go2rtc.yaml
+    else
+        sed -i 's/--codec mjpeg/--libav-format h264/g' /etc/go2rtc.yaml
+    fi
     info "Done!"
     exit 0
 elif [[ $REPLY =~ ^[6]$ ]]; then
