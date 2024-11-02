@@ -104,11 +104,8 @@ const photoBooth = (function () {
         loaderButtonBar.empty();
         loaderMessage.empty();
         loaderMessage.removeClass('stage-message--error');
-
+        resultPage.removeAttr('style data-img');
         resultPage.removeClass('stage--active');
-        resultPage.attr('style', null);
-        resultPage.attr('data-img', null);
-
         gallery.removeClass('gallery--open');
         gallery.find('.gallery__inner').hide();
         previewVideo.hide();
@@ -388,9 +385,8 @@ const photoBooth = (function () {
     };
 
     api.clearLoaderImage = () => {
-        loaderImage.css('display', 'none');
-        loaderImage.css('background-image', 'none');
-        loaderImage.attr('data-img', null);
+        loaderImage.css({ display: 'none', 'background-image': '' });
+        loaderImage.removeAttr('data-img');
     };
 
     api.shellCommand = function (cmd, file = '') {
@@ -622,7 +618,6 @@ const photoBooth = (function () {
                         loaderImage.attr('data-img', picdate);
                         loaderImage.css('background-image', `url(${imageUrl}?filter=${imgFilter}&v=${picdate})`);
                     };
-
                     preloadImage.src = imageUrl;
 
                     loaderImage.show();
@@ -639,21 +634,17 @@ const photoBooth = (function () {
 
                     if (config.collage.continuous) {
                         loaderMessage.append($('<p>').text(photoboothTools.getTranslation('wait_message')));
-                        if (result.current + 1 < result.limit) {
-                            setTimeout(() => {
-                                api.clearLoaderImage();
-                                imageUrl = '';
+                        setTimeout(() => {
+                            api.clearLoaderImage();
+                            imageUrl = '';
+                            if (result.current + 1 < result.limit) {
                                 api.thrill(PhotoStyle.COLLAGE);
-                            }, continuousCollageTime);
-                        } else {
-                            currentCollageFile = '';
-                            api.nextCollageNumber = 0;
-                            setTimeout(() => {
-                                api.clearLoaderImage();
-                                imageUrl = '';
+                            } else {
+                                currentCollageFile = '';
+                                api.nextCollageNumber = 0;
                                 api.processPic(result);
-                            }, continuousCollageTime);
-                        }
+                            }
+                        }, continuousCollageTime);
                     } else {
                         // collage with interruption
                         if (result.current + 1 < result.limit) {
@@ -1177,17 +1168,16 @@ const photoBooth = (function () {
 
         const preloadImage = new Image();
         preloadImage.onload = () => {
+            startPage.removeClass('stage--active');
+
             resultPage.css({
                 '--stage-background-image': `url(${imageUrl}?filter=${imgFilter})`
             });
             resultPage.attr('data-img', filename);
-
-            startPage.removeClass('stage--active');
             resultPage.addClass('stage--active');
 
-            loader.removeClass('stage--active');
-            loader.removeClass('showBackgroundImage');
-            loader.css('background-image', null);
+            loader.removeClass('stage--active showBackgroundImage');
+            loader.css('background-image', '');
 
             if (config.qr.enabled && config.qr.result != 'hidden') {
                 if (document.getElementById('resultQR')) {
@@ -1588,10 +1578,8 @@ const photoBooth = (function () {
             newHeight = videoEl.videoHeight;
         }
         if (newWidth !== 0 && newHeight !== 0) {
-            previewFramePicture.css('width', newWidth);
-            previewFramePicture.css('height', newHeight);
-            previewFrameCollage.css('width', newWidth);
-            previewFrameCollage.css('height', newHeight);
+            previewFramePicture.css({ width: newWidth, height: newHeight });
+            previewFrameCollage.css({ width: newWidth, height: newHeight });
         }
     });
 
