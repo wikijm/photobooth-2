@@ -489,9 +489,11 @@ class Collage
             }
 
             if ($c->pictureRotation !== '0') {
-                $imageHandler->resizeRotation = $c->pictureRotation;
-                $imageHandler->resizeBgColor = $c->collageBackgroundColor;
-                $imageResource = $imageHandler->rotateResizeImage($imageResource);
+                $imageResource = $imageHandler->rotateResizeImage(
+                    image: $imageResource,
+                    degrees: $c->pictureRotation,
+                    bgColor: $c->collageBackgroundColor
+                );
                 if (!$imageResource instanceof \GdImage) {
                     throw new \Exception('Failed to rotate and resize image resource.');
                 }

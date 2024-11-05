@@ -41,27 +41,6 @@ class Image
 
     /**
      *
-     * Resize Image Difinitions
-     *
-     */
-
-    /**
-     * The rotation angle for image resizing.
-     */
-    public int $resizeRotation = 0;
-
-    /**
-     * The background color in hexadecimal format (#RRGGBB) for image resizing.
-     */
-    public string $resizeBgColor = '#ffffff';
-
-    /**
-     * Determine to keep aspect ratio on resize.
-     */
-    public bool $keepAspectRatio = false;
-
-    /**
-     *
      * Text to Image Difinitions
      *
      */
@@ -381,15 +360,13 @@ class Image
     /**
      * Rotate and resize an image.
      */
-    public function rotateResizeImage(GdImage $image, bool $useTransparentBackground = false): GdImage|false
+    public function rotateResizeImage(GdImage $image, int $degrees, string $bgColor = '#ffffff', bool $useTransparentBackground = false): GdImage|false
     {
         try {
-            $rotation = intval($this->resizeRotation);
-
             // simple rotate if possible and ignore changed dimensions (doesn't need to care about background color)
             $simple_rotate = [-180, -90, 0, 180, 90, 360];
-            if (in_array($rotation, $simple_rotate)) {
-                $new = imagerotate($image, $rotation, 0);
+            if (in_array($degrees, $simple_rotate)) {
+                $new = imagerotate($image, $degrees, 0);
                 if (!$new) {
                     throw new \Exception('Cannot rotate image.');
                 }
@@ -410,11 +387,10 @@ class Image
                     // Allocate a fully transparent background
                     $background = imagecolorallocatealpha($new, 0, 0, 0, 127);
                 } else {
-                    $bg_color = $this->resizeBgColor;
-                    if (strlen($bg_color) === 7) {
-                        $bg_color .= '00';
+                    if (strlen($bgColor) === 7) {
+                        $bgColor .= '00';
                     }
-                    $colorComponents = sscanf($bg_color, '#%02x%02x%02x%02x');
+                    $colorComponents = sscanf($bgColor, '#%02x%02x%02x%02x');
                     if ($colorComponents !== null) {
                         list($bg_r, $bg_g, $bg_b, $bg_a) = $colorComponents;
                         $bg_r = intval($bg_r);
@@ -433,7 +409,7 @@ class Image
                 }
 
                 // rotate the image
-                $image = imagerotate($image, $rotation, (int)$background);
+                $image = imagerotate($image, $degrees, (int)$background);
                 if (!$image) {
                     throw new \Exception('Cannot rotate image.');
                 }
@@ -517,7 +493,7 @@ class Image
     /**
      * Resize a PNG image based on the maximum dimensions.
      */
-    public function resizePngImage(GdImage $image, int $newWidth, int $newHeight = null): GdImage|false
+    public function resizePngImage(GdImage $image, int $newWidth, ?int $newHeight = null, bool $keepAspectRatio = false): GdImage|false
     {
         $newHeight = $newHeight ?? $newWidth;
         try {
@@ -528,7 +504,7 @@ class Image
                 throw new \Exception('Invalid image maximum dimensions.');
             }
 
-            if ($this->keepAspectRatio) {
+            if ($keepAspectRatio) {
                 $scale = min($newWidth / $old_width, $newHeight / $old_height);
                 $newWidth = intval(ceil($scale * $old_width));
                 $newHeight = intval(ceil($scale * $old_height));
@@ -541,7 +517,7 @@ class Image
             imagealphablending($new, false);
             imagesavealpha($new, true);
 
-            if ($this->keepAspectRatio) {
+            if ($keepAspectRatio) {
                 if (!imagecopyresized($new, $image, 0, 0, 0, 0, $newWidth, $newHeight, $old_width, $old_height)) {
                     throw new \Exception('Cannot resize image.');
                 }
@@ -833,8 +809,11 @@ class Image
             }
 
             if ($degrees != 0) {
-                $this->resizeRotation = $degrees;
-                $imageResource = self::rotateResizeImage($imageResource, true);
+                $imageResource = self::rotateResizeImage(
+                    image: $imageResource,
+                    degrees: $degrees,
+                    useTransparentBackground: true
+                );
                 if (!$imageResource instanceof \GdImage) {
                     throw new \Exception('Failed to rotate and resize image.');
                 }
