@@ -60,7 +60,7 @@ Photobooth stays feature complete for this year in latest development source, on
 
 I hope everyone can enjoy the Christmas days and have a good start into the new year 2025!
 
-Best regards 
+Best regards
 
 Andi
 
