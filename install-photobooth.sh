@@ -280,7 +280,7 @@ fi
 function self_update() {
     if ! wget -q -O "$SCRIPT_TEMP_FILE" "$SCRIPT_REMOTE_URL"; then
         error "Unable to download the latest installation script."
-        exit 1
+        return
     fi
 
     if ! cmp -s "$SCRIPT_TEMP_FILE" "$0"; then
@@ -289,7 +289,7 @@ function self_update() {
             info "### Skipping update on silent install."
         else
             info "Updating the installation script..."
-            mv "$SCRIPT_TEMP_FILE" "$0"
+            mv -f "$SCRIPT_TEMP_FILE" "$0"
             chmod +x "$0"
             info "### Installation script updated successfully."
             info "### Restarting..."
