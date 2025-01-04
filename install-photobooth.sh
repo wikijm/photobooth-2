@@ -3,6 +3,11 @@
 # Stop on the first sign of trouble
 set -e
 
+SCRIPT_NAME="install-photobooth.sh"
+SCRIPT_REMOTE_URL="https://raw.githubusercontent.com/PhotoboothProject/photobooth/refs/heads/dev/$SCRIPT_NAME"
+SCRIPT_TEMP_FILE="/tmp/$SCRIPT_NAME"
+SCRIPT_ARGS=("$@")
+
 USERNAME=''
 WEBSERVER="apache"
 SILENT_INSTALL=false
@@ -271,6 +276,30 @@ if [ "$(dpkg-query -W -f='${Status}' "lxde" 2>/dev/null | grep -c "ok installed"
 else
     DESKTOP_OS=false
 fi
+
+function self_update() {
+    if ! wget -q -O "$SCRIPT_TEMP_FILE" "$SCRIPT_REMOTE_URL"; then
+        error "Unable to download the latest installation script."
+        exit 1
+    fi
+
+    if ! cmp -s "$SCRIPT_TEMP_FILE" "$0"; then
+        info "### Update found."
+        if [ "$SILENT_INSTALL" = true ]; then
+            info "### Skipping update on silent install."
+        else
+            info "Updating the installation script..."
+            mv "$SCRIPT_TEMP_FILE" "$0"
+            chmod +x "$0"
+            info "### Installation script updated successfully."
+            info "### Restarting..."
+            exec "$0" "${SCRIPT_ARGS[@]}"
+        fi
+    else
+        info "### No installation script updates available."
+        rm -f "$SCRIPT_TEMP_FILE"
+    fi
+}
 
 function check_username() {
     info "[Info]      Checking if user $USERNAME exists..."
@@ -995,6 +1024,10 @@ if [ "$UID" != 0 ]; then
     error "ERROR: Only root is allowed to execute the installer. Forgot sudo?"
     exit 1
 fi
+
+info "### Checking for installer updates..."
+self_update
+print_spaces
 
 if [ "$USERNAME" != "" ]; then
     check_username
