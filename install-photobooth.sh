@@ -6,6 +6,7 @@ set -e
 SCRIPT_NAME="install-photobooth.sh"
 SCRIPT_REMOTE_URL="https://raw.githubusercontent.com/PhotoboothProject/photobooth/refs/heads/dev/$SCRIPT_NAME"
 SCRIPT_TEMP_FILE="/tmp/$SCRIPT_NAME"
+SCRIPT_ABS_PATH="$(realpath "$0")"
 SCRIPT_ARGS=("$@")
 
 USERNAME=''
@@ -283,17 +284,25 @@ function self_update() {
         return
     fi
 
-    if ! cmp -s "$SCRIPT_TEMP_FILE" "$0"; then
+    if ! cmp -s "$SCRIPT_TEMP_FILE" "$SCRIPT_ABS_PATH"; then
         info "### Update found."
         if [ "$SILENT_INSTALL" = true ]; then
             info "### Skipping update on silent install."
         else
-            info "Updating the installation script..."
-            mv -f "$SCRIPT_TEMP_FILE" "$0"
-            chmod +x "$0"
+            info "### Updating the installation script..."
+            if ! mv -f "$SCRIPT_TEMP_FILE" "$SCRIPT_ABS_PATH"; then
+                error "Failed to update the installation script."
+                return
+            fi
+
+            if ! chmod +x "$SCRIPT_ABS_PATH"; then
+                error "Failed to add execution permission to the updated installation script."
+                return
+            fi
+
             info "### Installation script updated successfully."
             info "### Restarting..."
-            exec "$0" "${SCRIPT_ARGS[@]}"
+            exec "$SCRIPT_ABS_PATH" "${SCRIPT_ARGS[@]}"
         fi
     else
         info "### No installation script updates available."
